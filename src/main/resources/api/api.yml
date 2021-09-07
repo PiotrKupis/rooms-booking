@@ -1,0 +1,87 @@
+openapi: 3.0.0
+info:
+    description: "Swagger API rest service"
+    version: "1.0.0"
+    title: "Swagger backend"
+paths:
+    /auth/register:
+        post:
+            tags:
+                - "auth"
+            summary: "Register an account"
+            description: "Register an account"
+            operationId: "register"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/registerRequest'
+            responses:
+                '201':
+                    description: "Operation successful"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/registerResponse'
+                '400':
+                    description: "Bad request"
+                '409':
+                    description: "Conflict"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
+components:
+    schemas:
+        registerRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                    minLength: 2
+                    maxLength: 60
+                surname:
+                    type: string
+                    minLength: 2
+                    maxLength: 60
+                password:
+                    type: string
+                    minLength: 5
+                    maxLength: 200
+                repeatedPassword:
+                    type: string
+                    minLength: 5
+                    maxLength: 200
+                email:
+                    type: string
+                    minLength: 5
+                countryCode:
+                    type: string
+                    minLength: 1
+                    maxLength: 4
+                    pattern: '^[+]\d{1,3}$'
+                phoneNumber:
+                    type: string
+                    minLength: 6
+                    maxLength: 12
+                    pattern: '^\d{6,12}$'
+            required:
+                - name
+                - surname
+                - password
+                - repeatedPassword
+                - email
+                - countryCode
+                - phoneNumber
+
+        registerResponse:
+            type: object
+            properties:
+                name:
+                    type: string
+                surname:
+                    type: string
+                email:
+                    type: string
