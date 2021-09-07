@@ -57,6 +57,7 @@ components:
                 email:
                     type: string
                     minLength: 5
+                    pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
                 countryCode:
                     type: string
                     minLength: 1
