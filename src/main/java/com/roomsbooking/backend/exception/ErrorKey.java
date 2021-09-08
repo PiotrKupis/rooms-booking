@@ -10,8 +10,10 @@ public class ErrorKey {
     public static final String OPERATION_ERROR = "error.general.operation";
     public static final String CONFLICT_ERROR = "error.general.conflict";
 
-    public static final String UNIQUE_VALUE_ERROR = "error.unique.value";
+    public static final String OPERATION_PASSWORDS_DO_NOT_MATCH_ERROR = "error.passwords.do.not.match";
+    public static final String CONFLICT_EMAIL_ALREADY_TAKEN_ERROR = "error.email.already.taken";
 
+    public static final String UNIQUE_VALUE_ERROR = "error.unique.value";
     public static final String ARGUMENT_VALIDATION_ERROR = "error.validation.argument";
     public static final String UNEXPECTED_VALUE_ERROR = "error.unexpected.value";
 

@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Class responsible for keeping an information about phone number.
+ * Class responsible for keeping an information about single user role.
  */
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Entity(name = "phone_number")
-public class PhoneNumber {
+@Entity
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +28,7 @@ public class PhoneNumber {
     private Long id;
 
     @NotBlank
-    @Size(min = 2, max = 4)
-    @Column(nullable = false, name = "country_code", length = 4)
-    private String countryCode;
-
-    @NotBlank
-    @Size(min = 6, max = 12)
-    @Column(nullable = false, name = "phone_number", length = 12)
-    private String phoneNumber;
+    @Size(max = 100)
+    @Column(name = "role_name", nullable = false, unique = true)
+    private String roleName;
 }
