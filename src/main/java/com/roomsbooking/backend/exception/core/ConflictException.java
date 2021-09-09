@@ -19,6 +19,10 @@ public class ConflictException extends BaseException {
         return new ConflictException(message);
     }
 
+    public static ConflictException conflict(String message, String errorKey) {
+        return new ConflictException(message, errorKey);
+    }
+
     public static ConflictException uniqueField(String field) {
         return new ConflictException(String.format("Field %s must be unique", field),
             ErrorKey.UNIQUE_VALUE_ERROR);

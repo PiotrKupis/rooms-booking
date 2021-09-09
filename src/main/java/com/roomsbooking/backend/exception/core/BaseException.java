@@ -14,4 +14,9 @@ public class BaseException extends RuntimeException {
         super(message);
         this.errorKey = errorKey;
     }
+
+    protected BaseException(Throwable cause, String errorKey) {
+        super(cause);
+        this.errorKey = errorKey;
+    }
 }
