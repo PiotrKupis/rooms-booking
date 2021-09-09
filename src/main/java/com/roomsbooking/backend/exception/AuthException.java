@@ -2,6 +2,7 @@ package com.roomsbooking.backend.exception;
 
 import com.roomsbooking.backend.exception.core.BaseException;
 import com.roomsbooking.backend.exception.core.ConflictException;
+import com.roomsbooking.backend.exception.core.CriticalException;
 import com.roomsbooking.backend.exception.core.OperationException;
 
 public class AuthException extends BaseException {
@@ -20,5 +21,10 @@ public class AuthException extends BaseException {
         return new AuthException(
             ConflictException.conflict("Email is already taken",
                 ErrorKey.CONFLICT_EMAIL_ALREADY_TAKEN_ERROR));
+    }
+
+    public static AuthException rolesIssue() {
+        return new AuthException(
+            CriticalException.critical("Problem with default user roles"));
     }
 }
