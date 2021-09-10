@@ -11,7 +11,15 @@ public class NotFoundException extends BaseException {
         super(message, ErrorKey.NOT_FOUND_ERROR);
     }
 
+    private NotFoundException(String message, String errorKey) {
+        super(message, errorKey);
+    }
+
     public static NotFoundException notFound(String message) {
         return new NotFoundException(message);
+    }
+
+    public static NotFoundException notFound(String message, String errorKey) {
+        return new NotFoundException(message, errorKey);
     }
 }

@@ -10,6 +10,7 @@ public class ErrorKey {
     public static final String OPERATION_ERROR = "error.general.operation";
     public static final String CONFLICT_ERROR = "error.general.conflict";
 
+    public static final String NOT_FOUND_USER_ERROR = "error.user.not.found";
     public static final String OPERATION_PASSWORDS_DO_NOT_MATCH_ERROR = "error.passwords.do.not.match";
     public static final String CONFLICT_EMAIL_ALREADY_TAKEN_ERROR = "error.email.already.taken";
 
