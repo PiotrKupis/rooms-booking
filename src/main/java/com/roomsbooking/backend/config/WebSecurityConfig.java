@@ -13,7 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @AllArgsConstructor
 @Configuration
@@ -24,9 +28,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
 
     /**
+     * Method responsible for registering bean responsible for encrypting passwords.
+     *
+     * @return bean of type {@link PasswordEncoder}
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
      * Method responsible for exposing AuthenticationManager as a Bean.
      *
-     * @return object of type {@link AuthenticationManager}
+     * @return bean of type {@link AuthenticationManager}
      */
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -46,6 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .passwordEncoder(passwordEncoder);
     }
 
+    /**
+     * Method responsible for configuring web security.
+     *
+     * @param http object of type {@link HttpSecurity}
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
@@ -60,5 +79,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-docs")
             .permitAll()
             .anyRequest().authenticated();
+    }
+
+    /**
+     * Method responsible for registering bean responsible for cors configuration.
+     *
+     * @return bean of type {@link CorsFilter}
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
