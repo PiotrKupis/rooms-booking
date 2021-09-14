@@ -25,6 +25,6 @@ public class ConflictException extends BaseException {
 
     public static ConflictException uniqueField(String field) {
         return new ConflictException(String.format("Field %s must be unique", field),
-            ErrorKey.UNIQUE_VALUE_ERROR);
+            ErrorKey.CONFLICT_UNIQUE_VALUE_ERROR);
     }
 }

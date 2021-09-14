@@ -124,7 +124,7 @@ public class RestExceptionAdvice {
                 .orElse("Unexpected value!");
         }
 
-        String errorKey = ErrorKey.UNEXPECTED_VALUE_ERROR;
+        String errorKey = ErrorKey.OPERATION_UNEXPECTED_VALUE_ERROR;
         if (!fieldName.isEmpty()) {
             errorKey += "." + fieldName;
         }
@@ -141,7 +141,7 @@ public class RestExceptionAdvice {
 
     private SingleError mapFieldErrorToSingleError(FieldError fieldError) {
         String errorKey = String.format("%s.%s.%s",
-            ErrorKey.ARGUMENT_VALIDATION_ERROR,
+            ErrorKey.OPERATION_ARGUMENT_VALIDATION_ERROR,
             fieldError.getField(),
             fieldError.getCode());
         return new SingleError(errorKey, fieldError.getDefaultMessage());
