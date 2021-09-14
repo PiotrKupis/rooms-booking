@@ -11,7 +11,15 @@ public class CriticalException extends BaseException {
         super(message, ErrorKey.CRITICAL_ERROR);
     }
 
+    private CriticalException(String message, String errorKey) {
+        super(message, errorKey);
+    }
+
     public static CriticalException critical(String message) {
         return new CriticalException(message);
+    }
+
+    public static CriticalException critical(String message, String errorKey) {
+        return new CriticalException(message, errorKey);
     }
 }

@@ -27,4 +27,10 @@ public class AuthException extends BaseException {
         return new AuthException(
             CriticalException.critical("Problem with default user roles"));
     }
+
+    public static AuthException jwtKeystoreError() {
+        return new AuthException(
+            CriticalException.critical("Problem with jwt keystore",
+                ErrorKey.CRITICAL_JWT_KEYSTORE_ERROR));
+    }
 }
