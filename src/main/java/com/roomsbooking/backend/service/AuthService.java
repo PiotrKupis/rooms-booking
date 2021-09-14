@@ -10,12 +10,14 @@ import com.roomsbooking.backend.repository.RoleRepository;
 import com.roomsbooking.backend.repository.UserRepository;
 import java.util.Collections;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
  * Service responsible for managing users.
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AuthService {
@@ -53,6 +55,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(defaultRole));
         userRepository.save(user);
+        log.info("Registered a new user with email: " + registerRequest.getEmail());
 
         return userMapper.toRegisterResponse(user);
     }

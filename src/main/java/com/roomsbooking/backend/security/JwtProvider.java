@@ -1,13 +1,14 @@
 package com.roomsbooking.backend.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Date;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtProvider {
 
     @Value("${security.jwt.expiration.time}")
     private Long jwtExpirationInMillis;
-
     private final RSAPrivateKey privateKey;
     private final RSAPublicKey publicKey;
 
@@ -53,5 +53,23 @@ public class JwtProvider {
             .parseClaimsJws(token)
             .getBody();
         return claims.getSubject();
+    }
+
+    /**
+     * Method responsible for validating a token.
+     *
+     * @param token user's JWT
+     * @return true if token is valid else false
+     */
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                .setSigningKey(publicKey)
+                .build()
+                .parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
     }
 }
