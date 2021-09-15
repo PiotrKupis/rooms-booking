@@ -13,11 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +30,7 @@ import lombok.ToString;
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 @ToString
 @Entity(name = "users")
@@ -55,7 +58,7 @@ public class User {
 
     @NotBlank
     @Size(min = 2, max = 60)
-    //TODO add pattern for email validation
+    @Email(regexp = ".+@.+\\..+")
     @Column(nullable = false)
     private String email;
 
