@@ -5,6 +5,7 @@ import com.rooms_booking.dto.LoginResponse;
 import com.rooms_booking.dto.RegisterRequest;
 import com.rooms_booking.dto.RegisterResponse;
 import com.roomsbooking.backend.exception.AuthException;
+import com.roomsbooking.backend.exception.UserException;
 import com.roomsbooking.backend.mapper.UserMapper;
 import com.roomsbooking.backend.model.RefreshToken;
 import com.roomsbooking.backend.model.Role;
@@ -70,8 +71,8 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(defaultRole));
         userRepository.save(user);
-        log.info("Registered a new user with email: " + registerRequest.getEmail());
 
+        log.info("Registered a new user with email: " + registerRequest.getEmail());
         return userMapper.toRegisterResponse(user);
     }
 
@@ -104,10 +105,24 @@ public class AuthService {
             loginResponse.setExpireDate(expirationDate.toString());
             loginResponse.setEmail(loginRequest.getEmail());
             loginResponse.setRole(roles);
+
             log.info("Logged in user with email: " + loginRequest.getEmail());
             return loginResponse;
         } catch (AuthenticationException e) {
             throw AuthException.badCredentials();
         }
+    }
+
+    /**
+     * Method responsible for getting current user.
+     *
+     * @return object of type {@link User}
+     */
+    public User getCurrentUser() {
+        var principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
+            .getAuthentication()
+            .getPrincipal();
+        return userRepository.findByEmail(principal.getUsername())
+            .orElseThrow(() -> UserException.userNotFound(principal.getUsername()));
     }
 }
