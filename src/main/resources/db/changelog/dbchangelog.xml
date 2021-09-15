@@ -7,6 +7,7 @@
     <include file="../roleTable.xml" relativeToChangelogFile="true"/>
     <include file="../userTable.xml" relativeToChangelogFile="true"/>
     <include file="../userRoleTable.xml" relativeToChangelogFile="true"/>
+    <include file="../refreshTokenTable.xml" relativeToChangelogFile="true"/>
 
     <include file="../loadRoles.xml" relativeToChangelogFile="true"/>
 
