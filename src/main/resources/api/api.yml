@@ -143,4 +143,6 @@ components:
                 email:
                     type: string
                 role:
-                    type: string
+                    type: array
+                    items:
+                        type: string

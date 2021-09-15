@@ -16,6 +16,7 @@ public class ErrorKey {
     public static final String OPERATION_ARGUMENT_VALIDATION_ERROR = "error.validation.argument";
     public static final String OPERATION_UNEXPECTED_VALUE_ERROR = "error.unexpected.value";
     public static final String OPERATION_JWT_EXPIRED_ERROR = "error.jwt.expired";
+    public static final String OPERATION_BAD_CREDENTIALS_ERROR = "error.bad.credentials";
 
     public static final String CONFLICT_ERROR = "error.general.conflict";
     public static final String CONFLICT_EMAIL_ALREADY_TAKEN_ERROR = "error.email.already.taken";

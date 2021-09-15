@@ -38,4 +38,9 @@ public class AuthException extends BaseException {
         return new AuthException(OperationException.operationError("JWT token has expired",
             ErrorKey.OPERATION_JWT_EXPIRED_ERROR));
     }
+
+    public static AuthException badCredentials() {
+        return new AuthException(OperationException.operationError("Bad credentials",
+            ErrorKey.OPERATION_BAD_CREDENTIALS_ERROR));
+    }
 }
