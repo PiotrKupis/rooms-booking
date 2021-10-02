@@ -2,6 +2,7 @@ package com.roomsbooking.backend.service;
 
 import com.rooms_booking.dto.LoginRequest;
 import com.rooms_booking.dto.LoginResponse;
+import com.rooms_booking.dto.RefreshTokenPayload;
 import com.rooms_booking.dto.RegisterRequest;
 import com.rooms_booking.dto.RegisterResponse;
 import com.roomsbooking.backend.exception.AuthException;
@@ -124,5 +125,17 @@ public class AuthService {
             .getPrincipal();
         return userRepository.findByEmail(principal.getUsername())
             .orElseThrow(() -> UserException.userNotFound(principal.getUsername()));
+    }
+
+    /**
+     * Method responsible for logging out a user.
+     *
+     * @param refreshTokenPayload object of type {@link RefreshTokenPayload}
+     * @return object of type {@link RefreshTokenPayload}
+     */
+    public RefreshTokenPayload logOut(RefreshTokenPayload refreshTokenPayload) {
+        refreshTokenService.deleteRefreshToken(refreshTokenPayload.getRefreshToken());
+        log.info("Logged out user with email: " + refreshTokenPayload.getEmail());
+        return refreshTokenPayload;
     }
 }

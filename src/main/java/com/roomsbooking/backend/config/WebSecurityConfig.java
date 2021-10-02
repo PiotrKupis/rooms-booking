@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -69,12 +67,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors()
             .and()
             .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .exceptionHandling().disable()
-            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
             .authorizeRequests()
             .antMatchers("/auth/register", "/auth/login").permitAll()
+            .antMatchers("/auth/logout").hasAnyAuthority("ADMIN", "MODERATOR", "USER")
             .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-docs")
             .permitAll()
             .anyRequest().authenticated();

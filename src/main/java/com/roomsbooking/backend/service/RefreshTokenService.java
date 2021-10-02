@@ -1,5 +1,6 @@
 package com.roomsbooking.backend.service;
 
+import com.roomsbooking.backend.exception.AuthException;
 import com.roomsbooking.backend.model.RefreshToken;
 import com.roomsbooking.backend.repository.RefreshTokenRepository;
 import java.time.Instant;
@@ -27,5 +28,16 @@ public class RefreshTokenService {
             .createDate(Instant.now())
             .build();
         return refreshTokenRepository.save(token);
+    }
+
+    /**
+     * Method responsible for deleting a refresh token.
+     *
+     * @param refreshToken specific refresh token to be deleted
+     */
+    public void deleteRefreshToken(String refreshToken) {
+        RefreshToken tokenToDelete = refreshTokenRepository.findByToken(refreshToken)
+            .orElseThrow(AuthException::notFoundRefreshToken);
+        refreshTokenRepository.delete(tokenToDelete);
     }
 }

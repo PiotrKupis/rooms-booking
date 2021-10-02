@@ -3,6 +3,7 @@ package com.roomsbooking.backend.exception;
 import com.roomsbooking.backend.exception.core.BaseException;
 import com.roomsbooking.backend.exception.core.ConflictException;
 import com.roomsbooking.backend.exception.core.CriticalException;
+import com.roomsbooking.backend.exception.core.NotFoundException;
 import com.roomsbooking.backend.exception.core.OperationException;
 
 public class AuthException extends BaseException {
@@ -42,5 +43,9 @@ public class AuthException extends BaseException {
     public static AuthException badCredentials() {
         return new AuthException(OperationException.operationError("Bad credentials",
             ErrorKey.OPERATION_BAD_CREDENTIALS_ERROR));
+    }
+
+    public static AuthException notFoundRefreshToken() {
+        return new AuthException(NotFoundException.notFound("Not found passed refresh token"));
     }
 }
