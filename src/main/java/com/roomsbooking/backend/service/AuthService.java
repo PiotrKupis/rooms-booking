@@ -104,7 +104,7 @@ public class AuthService {
             loginResponse.setRefreshToken(refreshToken.getToken());
             loginResponse.setExpireDate(expirationDate.toString());
             loginResponse.setEmail(loginRequest.getEmail());
-            loginResponse.setRole(roles);
+            loginResponse.setRoles(roles);
 
             log.info("Logged in user with email: " + loginRequest.getEmail());
             return loginResponse;

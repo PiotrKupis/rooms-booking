@@ -142,7 +142,7 @@ components:
                     type: string
                 email:
                     type: string
-                role:
+                roles:
                     type: array
                     items:
                         type: string
