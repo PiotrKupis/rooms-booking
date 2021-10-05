@@ -2,8 +2,8 @@ package com.roomsbooking.backend.controller;
 
 
 import com.rooms_booking.controller.AuthApi;
+import com.rooms_booking.dto.AuthenticationResponse;
 import com.rooms_booking.dto.LoginRequest;
-import com.rooms_booking.dto.LoginResponse;
 import com.rooms_booking.dto.RefreshTokenPayload;
 import com.rooms_booking.dto.RegisterRequest;
 import com.rooms_booking.dto.RegisterResponse;
@@ -26,12 +26,18 @@ public class AuthController implements AuthApi {
     }
 
     @Override
-    public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
+    public ResponseEntity<AuthenticationResponse> login(LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.login(loginRequest));
     }
 
     @Override
     public ResponseEntity<RefreshTokenPayload> logOut(RefreshTokenPayload refreshTokenPayload) {
         return ResponseEntity.ok(authService.logOut(refreshTokenPayload));
+    }
+
+    @Override
+    public ResponseEntity<AuthenticationResponse> refreshToken(
+        RefreshTokenPayload refreshTokenPayload) {
+        return ResponseEntity.ok(authService.refreshToken(refreshTokenPayload));
     }
 }

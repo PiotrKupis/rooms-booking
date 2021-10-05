@@ -1,7 +1,7 @@
 package com.roomsbooking.backend.service;
 
+import com.rooms_booking.dto.AuthenticationResponse;
 import com.rooms_booking.dto.LoginRequest;
-import com.rooms_booking.dto.LoginResponse;
 import com.rooms_booking.dto.RefreshTokenPayload;
 import com.rooms_booking.dto.RegisterRequest;
 import com.rooms_booking.dto.RegisterResponse;
@@ -81,9 +81,9 @@ public class AuthService {
      * Method responsible for handling login request.
      *
      * @param loginRequest object of type {@link LoginRequest}
-     * @return object of type {@link LoginResponse}
+     * @return object of type {@link AuthenticationResponse}
      */
-    public LoginResponse login(LoginRequest loginRequest) {
+    public AuthenticationResponse login(LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
@@ -100,15 +100,15 @@ public class AuthService {
                     .collect(Collectors.toList()))
                 .orElseThrow(AuthException::badCredentials);
 
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setAuthToken(token);
-            loginResponse.setRefreshToken(refreshToken.getToken());
-            loginResponse.setExpireDate(expirationDate.toString());
-            loginResponse.setEmail(loginRequest.getEmail());
-            loginResponse.setRoles(roles);
+            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+            authenticationResponse.setAuthToken(token);
+            authenticationResponse.setRefreshToken(refreshToken.getToken());
+            authenticationResponse.setExpireDate(expirationDate.toString());
+            authenticationResponse.setEmail(loginRequest.getEmail());
+            authenticationResponse.setRoles(roles);
 
             log.info("Logged in user with email: " + loginRequest.getEmail());
-            return loginResponse;
+            return authenticationResponse;
         } catch (AuthenticationException e) {
             throw AuthException.badCredentials();
         }
@@ -137,5 +137,33 @@ public class AuthService {
         refreshTokenService.deleteRefreshToken(refreshTokenPayload.getRefreshToken());
         log.info("Logged out user with email: " + refreshTokenPayload.getEmail());
         return refreshTokenPayload;
+    }
+
+    /**
+     * Method responsible for refreshing a token.
+     *
+     * @param refreshTokenPayload object of type {@link RefreshTokenPayload}
+     * @return object of type {@link AuthenticationResponse}
+     */
+    public AuthenticationResponse refreshToken(RefreshTokenPayload refreshTokenPayload) {
+        log.info(
+            "Checking if refresh token " + refreshTokenPayload.getRefreshToken() + " is valid");
+        refreshTokenService.validateToken(refreshTokenPayload.getRefreshToken());
+
+        List<String> roles = getCurrentUser().getRoles().stream()
+            .map(Role::getRoleName)
+            .collect(Collectors.toList());
+        String token = jwtProvider.generateToken(refreshTokenPayload.getEmail());
+
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        authenticationResponse.setAuthToken(token);
+        authenticationResponse.setRefreshToken(refreshTokenPayload.getRefreshToken());
+        authenticationResponse.setExpireDate(Instant.now()
+            .plusMillis(jwtProvider.getJwtExpirationInMillis())
+            .toString());
+        authenticationResponse.setEmail(refreshTokenPayload.getEmail());
+        authenticationResponse.setRoles(roles);
+        log.info("Refreshed token");
+        return authenticationResponse;
     }
 }

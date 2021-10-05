@@ -40,4 +40,14 @@ public class RefreshTokenService {
             .orElseThrow(AuthException::notFoundRefreshToken);
         refreshTokenRepository.delete(tokenToDelete);
     }
+
+    /**
+     * Method responsible for checking if refresh token exists.
+     *
+     * @param refreshToken refresh that is being checked
+     */
+    public void validateToken(String refreshToken) {
+        refreshTokenRepository.findByToken(refreshToken)
+            .orElseThrow(AuthException::notFoundRefreshToken);
+    }
 }
