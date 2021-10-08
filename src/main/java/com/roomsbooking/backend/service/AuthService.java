@@ -150,9 +150,11 @@ public class AuthService {
             "Checking if refresh token " + refreshTokenPayload.getRefreshToken() + " is valid");
         refreshTokenService.validateToken(refreshTokenPayload.getRefreshToken());
 
-        List<String> roles = getCurrentUser().getRoles().stream()
-            .map(Role::getRoleName)
-            .collect(Collectors.toList());
+        List<String> roles = userRepository.findByEmail(refreshTokenPayload.getEmail())
+            .map(user -> user.getRoles().stream()
+                .map(Role::getRoleName)
+                .collect(Collectors.toList()))
+            .orElseThrow(() -> UserException.userNotFound(refreshTokenPayload.getEmail()));
         String token = jwtProvider.generateToken(refreshTokenPayload.getEmail());
 
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
