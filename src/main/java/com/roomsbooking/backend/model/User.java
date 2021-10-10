@@ -26,7 +26,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class responsible for keeping an information about single user.
+ * Class responsible for keeping information about single user.
  */
 @NoArgsConstructor
 @AllArgsConstructor

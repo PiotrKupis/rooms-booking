@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Class responsible for keeping an information about single user role.
+ * Class responsible for keeping information about single user role.
  */
 @AllArgsConstructor
 @NoArgsConstructor

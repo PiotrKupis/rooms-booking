@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Class responsible for keeping an information about phone number.
+ * Class responsible for keeping information about phone number.
  */
 @NoArgsConstructor
 @AllArgsConstructor
