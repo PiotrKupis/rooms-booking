@@ -1,0 +1,47 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+
+    <changeSet id="1" author="pkupis">
+        <createTable tableName="resort">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="resort_name" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resort_type" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_resort_address"
+                    references="address(id)"/>
+            </column>
+            <column name="smoking_permitted" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="animals_permitted" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="party_permitted" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hotel_day_start" type="time">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hotel_day_end" type="time">
+                <constraints nullable="false"/>
+            </column>
+            <column name="days_of_free_cancel" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_parking_available" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parking_fee_currency" type="varchar(3)"/>
+            <column name="parking_fee" type="decimal(9,4)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

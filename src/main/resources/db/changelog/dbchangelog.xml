@@ -3,11 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <include file="../phoneNumberTable.xml" relativeToChangelogFile="true"/>
-    <include file="../roleTable.xml" relativeToChangelogFile="true"/>
-    <include file="../userTable.xml" relativeToChangelogFile="true"/>
-    <include file="../userRoleTable.xml" relativeToChangelogFile="true"/>
-    <include file="../refreshTokenTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/phoneNumberTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/roleTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/userTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/userRoleTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/refreshTokenTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/addressTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/resortTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/resortAmenityTable.xml" relativeToChangelogFile="true"/>
 
     <include file="../loadRoles.xml" relativeToChangelogFile="true"/>
 
