@@ -20,6 +20,7 @@ public class ErrorKey {
 
     public static final String CONFLICT_ERROR = "error.general.conflict";
     public static final String CONFLICT_EMAIL_ALREADY_TAKEN_ERROR = "error.email.already.taken";
+    public static final String CONFLICT_RESORT_NAME_ALREADY_TAKEN_ERROR = "error.resort.name.already.taken";
     public static final String CONFLICT_UNIQUE_VALUE_ERROR = "error.unique.value";
 
     public static final String DB_CONNECTION_ERROR = "error.db.connection";
