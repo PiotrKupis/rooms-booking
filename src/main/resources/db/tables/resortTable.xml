@@ -9,8 +9,12 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_resort_user"
+                    references="users(id)"/>
+            </column>
             <column name="resort_name" type="varchar(150)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="resort_type" type="varchar(60)">
                 <constraints nullable="false"/>
@@ -41,7 +45,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="parking_fee_currency" type="varchar(3)"/>
-            <column name="parking_fee" type="decimal(9,4)"/>
+            <column name="parking_fee" type="decimal(12,3)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
