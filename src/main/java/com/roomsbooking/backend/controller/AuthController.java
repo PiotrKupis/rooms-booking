@@ -1,13 +1,13 @@
 package com.roomsbooking.backend.controller;
 
 
-import com.rooms_booking.controller.AuthApi;
-import com.rooms_booking.dto.AuthenticationResponse;
-import com.rooms_booking.dto.LoginRequest;
-import com.rooms_booking.dto.RefreshTokenPayload;
-import com.rooms_booking.dto.RegisterRequest;
-import com.rooms_booking.dto.RegisterResponse;
 import com.roomsbooking.backend.service.AuthService;
+import com.roomsbooking.controller.AuthApi;
+import com.roomsbooking.dto.AuthenticationResponse;
+import com.roomsbooking.dto.LoginRequest;
+import com.roomsbooking.dto.RefreshTokenPayload;
+import com.roomsbooking.dto.RegisterRequest;
+import com.roomsbooking.dto.RegisterResponse;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

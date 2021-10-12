@@ -132,21 +132,6 @@
             <version>${jsonwebtoken.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.joda</groupId>
-            <artifactId>joda-money</artifactId>
-            <version>${joda.money.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jadira.usertype</groupId>
-            <artifactId>usertype.core</artifactId>
-            <version>${jadira.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -204,8 +189,8 @@
                                 ${project.basedir}${swagger.source.filepath}
                             </inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>com.rooms-booking.controller</apiPackage>
-                            <modelPackage>com.rooms-booking.dto</modelPackage>
+                            <apiPackage>com.roomsbooking.controller</apiPackage>
+                            <modelPackage>com.roomsbooking.dto</modelPackage>
                             <supportingFilesToGenerate>
                                 ApiUtil.java
                             </supportingFilesToGenerate>

@@ -1,10 +1,5 @@
 package com.roomsbooking.backend.service;
 
-import com.rooms_booking.dto.AuthenticationResponse;
-import com.rooms_booking.dto.LoginRequest;
-import com.rooms_booking.dto.RefreshTokenPayload;
-import com.rooms_booking.dto.RegisterRequest;
-import com.rooms_booking.dto.RegisterResponse;
 import com.roomsbooking.backend.exception.AuthException;
 import com.roomsbooking.backend.exception.UserException;
 import com.roomsbooking.backend.mapper.UserMapper;
@@ -14,6 +9,11 @@ import com.roomsbooking.backend.model.User;
 import com.roomsbooking.backend.repository.RoleRepository;
 import com.roomsbooking.backend.repository.UserRepository;
 import com.roomsbooking.backend.security.JwtProvider;
+import com.roomsbooking.dto.AuthenticationResponse;
+import com.roomsbooking.dto.LoginRequest;
+import com.roomsbooking.dto.RefreshTokenPayload;
+import com.roomsbooking.dto.RegisterRequest;
+import com.roomsbooking.dto.RegisterResponse;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -36,10 +36,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
+    private final UserMapper userMapper;
+    private final RefreshTokenService refreshTokenService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final RefreshTokenService refreshTokenService;
-    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;

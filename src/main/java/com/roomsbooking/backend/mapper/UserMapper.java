@@ -1,8 +1,8 @@
 package com.roomsbooking.backend.mapper;
 
-import com.rooms_booking.dto.RegisterRequest;
-import com.rooms_booking.dto.RegisterResponse;
 import com.roomsbooking.backend.model.User;
+import com.roomsbooking.dto.RegisterRequest;
+import com.roomsbooking.dto.RegisterResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
