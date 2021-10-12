@@ -2,6 +2,7 @@ package com.roomsbooking.backend.model;
 
 import com.roomsbooking.backend.enums.ResortAmenity;
 import com.roomsbooking.backend.enums.ResortType;
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,9 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Columns;
-import org.hibernate.annotations.Type;
-import org.joda.money.Money;
+import lombok.ToString;
 
 
 /**
@@ -38,6 +37,7 @@ import org.joda.money.Money;
 @AllArgsConstructor
 @Builder
 @Data
+@ToString
 @Entity(name = "resort")
 public class Resort {
 
@@ -45,6 +45,11 @@ public class Resort {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id",
+        referencedColumnName = "id")
+    private User owner;
 
     @NotBlank
     @Column(name = "resort_name", nullable = false)
@@ -95,7 +100,11 @@ public class Resort {
     @Column(name = "is_parking_available", nullable = false)
     private Boolean isParkingAvailable;
 
-    @Columns(columns = {@Column(name = "parking_fee_currency"), @Column(name = "parking_fee")})
-    @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency")
-    private Money parkingFee;
+    @NotNull
+    @Column(name = "parking_fee", precision = 12, scale = 3)
+    private BigDecimal parkingFee;
+
+    @NotNull
+    @Column(name = "parking_fee_currency", length = 3)
+    private String parkingFeeCurrency;
 }

@@ -82,6 +82,8 @@ paths:
                                 $ref: '#/components/schemas/refreshTokenPayload'
                 '400':
                     description: "Bad request"
+                '404':
+                    description: "Not found"
                 '500':
                     description: "Internal server error"
                 '503':
@@ -109,6 +111,38 @@ paths:
                                 $ref: '#/components/schemas/authenticationResponse'
                 '400':
                     description: "Bad request"
+                '404':
+                    description: "Not found"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
+
+    /resort:
+        post:
+            tags:
+                - "resort"
+            summary: "Create a new resort"
+            description: "Create a new resort"
+            operationId: "createResort"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/resortPayload'
+            responses:
+                '201':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/resortPayload'
+                '400':
+                    description: "Bad request"
+                '409':
+                    description: "Conflict"
                 '500':
                     description: "Internal server error"
                 '503':
@@ -212,3 +246,96 @@ components:
                     type: string
                     minLength: 5
                     maxLength: 200
+            required:
+                - refreshToken
+                - email
+
+        resortPayload:
+            type: object
+            properties:
+                resortName:
+                    type: string
+                    minLength: 3
+                    maxLength: 150
+                resortType:
+                    type: string
+                    enum:
+                        - APARTMENT
+                        - HOTEL
+                        - MOTEL
+                        - HOSTEL
+                        - PRIVATE_ACCOMMODATION
+                        - HOLIDAY_RESORT
+                country:
+                    type: string
+                    minLength: 4
+                    maxLength: 80
+                city:
+                    type: string
+                    minLength: 3
+                    maxLength: 80
+                street:
+                    type: string
+                    minLength: 3
+                    maxLength: 100
+                streetNumber:
+                    type: string
+                    minLength: 1
+                    maxLength: 60
+                resortAmenities:
+                    type: array
+                    items:
+                        type: string
+                        enum:
+                            - BAR
+                            - SAUNA
+                            - GARDEN
+                            - TERRACE
+                            - JACUZZI
+                            - HEATING
+                            - FREE_WIFI
+                            - AIR_CONDITIONING
+                            - SWIMMING_POOL
+                            - PARKING
+                smokingPermitted:
+                    type: boolean
+                animalsPermitted:
+                    type: boolean
+                partyPermitted:
+                    type: boolean
+                hotelDayStart:
+                    type: string
+                    pattern: '^\d{2}:\d{2}$'
+                hotelDayEnd:
+                    type: string
+                    pattern: '^\d{2}:\d{2}$'
+                daysOfFreeCancel:
+                    type: integer
+                    minimum: 1
+                isParkingAvailable:
+                    type: boolean
+                parkingFee:
+                    type: string
+                    minLength: 3
+                    maxLength: 12
+                    pattern: '^\d+\.\d{1,3}$'
+                parkingFeeCurrency:
+                    type: string
+                    minLength: 3
+                    maxLength: 3
+                    pattern: '^[A-Z]{3}$'
+            required:
+                - resortName
+                - resortType
+                - country
+                - city
+                - street
+                - streetNumber
+                - resortAmenities
+                - smokingPermitted
+                - animalsPermited
+                - partyPermitted
+                - hotelDayStart
+                - hotelDayEnd
+                - daysOfFreeCancel
+                - isParkingAvailable

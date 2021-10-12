@@ -6,6 +6,9 @@ import com.roomsbooking.dto.RegisterResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+/**
+ * Interface responsible for mapping {@link User} object to data transfer objects.
+ */
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
