@@ -6,5 +6,5 @@ package com.roomsbooking.backend.enums;
 public enum BedType {
     SINGLE_BED,
     DOUBLE_BED,
-    KING_SIZE;
+    KING_SIZE
 }
