@@ -24,7 +24,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,8 +37,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-@ToString
+@Setter
+@Getter
+@EqualsAndHashCode(exclude = "rooms")
+@ToString(exclude = "rooms")
 @Entity(name = "resort")
 public class Resort {
 
@@ -99,6 +102,6 @@ public class Resort {
     @Column(name = "parking_fee_currency", length = 3)
     private String parkingFeeCurrency;
 
-    @OneToMany(mappedBy = "resort")
+    @OneToMany(mappedBy = "resort", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Room> rooms = new HashSet<>();
 }

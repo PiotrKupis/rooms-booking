@@ -3,7 +3,6 @@ package com.roomsbooking.backend.model;
 import com.roomsbooking.backend.enums.RoomAmenity;
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -21,7 +20,8 @@ import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,8 +32,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-@ToString
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "resort")
+@ToString(exclude = "resort")
 @Entity(name = "room")
 public class Room {
 
@@ -79,27 +81,4 @@ public class Room {
     @NotNull
     @Column(name = "max_residents_number", nullable = false)
     private Integer maxResidentsNumber;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Room room = (Room) o;
-        return resort.equals(room.resort) && roomNumber.equals(room.roomNumber) && price.equals(
-            room.price) && priceCurrency.equals(room.priceCurrency) && roomAmenities.equals(
-            room.roomAmenities) && singleBedQuantity.equals(room.singleBedQuantity)
-            && doubleBedQuantity.equals(room.doubleBedQuantity) && kingSizeBedQuantity.equals(
-            room.kingSizeBedQuantity) && maxResidentsNumber.equals(room.maxResidentsNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(resort, roomNumber, price, priceCurrency, roomAmenities,
-            singleBedQuantity,
-            doubleBedQuantity, kingSizeBedQuantity, maxResidentsNumber);
-    }
 }
