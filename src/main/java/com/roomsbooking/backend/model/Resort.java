@@ -1,7 +1,6 @@
 package com.roomsbooking.backend.model;
 
 import com.roomsbooking.backend.enums.ResortAmenity;
-import com.roomsbooking.backend.enums.ResortType;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -18,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -55,11 +55,6 @@ public class Resort {
     @Column(name = "resort_name", nullable = false)
     private String resortName;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "resort_type", nullable = false)
-    private ResortType resortType;
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(
         name = "address_id",
@@ -93,10 +88,6 @@ public class Resort {
     private LocalTime hotelDayEnd;
 
     @NotNull
-    @Column(name = "days_of_free_cancel", nullable = false)
-    private Integer daysOfFreeCancel;
-
-    @NotNull
     @Column(name = "is_parking_available", nullable = false)
     private Boolean isParkingAvailable;
 
@@ -104,7 +95,10 @@ public class Resort {
     @Column(name = "parking_fee", precision = 12, scale = 3)
     private BigDecimal parkingFee;
 
-    @NotNull
+    @NotBlank
     @Column(name = "parking_fee_currency", length = 3)
     private String parkingFeeCurrency;
+
+    @OneToMany(mappedBy = "resort")
+    private Set<Room> rooms = new HashSet<>();
 }
