@@ -16,9 +16,6 @@
             <column name="resort_name" type="varchar(150)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="resort_type" type="varchar(60)">
-                <constraints nullable="false"/>
-            </column>
             <column name="address_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_resort_address"
                     references="address(id)"/>
@@ -36,9 +33,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="hotel_day_end" type="time">
-                <constraints nullable="false"/>
-            </column>
-            <column name="days_of_free_cancel" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="is_parking_available" type="boolean" defaultValue="false">

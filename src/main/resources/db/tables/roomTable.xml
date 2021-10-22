@@ -1,0 +1,39 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+
+    <changeSet id="1" author="pkupis">
+        <createTable tableName="room">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="resort_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_room_resort"
+                    references="resort(id)"/>
+            </column>
+            <column name="room_number" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(12,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_currency" type="varchar(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="single_bed_quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="double_bed_quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="king_size_bed_quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_residents_number" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

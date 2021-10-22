@@ -22,7 +22,7 @@
         <lombok.version>1.18.20</lombok.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <liquibase.core.version>4.4.2</liquibase.core.version>
-        <postgresql.veriosn>42.2.23</postgresql.veriosn>
+        <postgresql.version>42.2.23</postgresql.version>
         <springdoc.version>1.5.2</springdoc.version>
         <openapi.generator.maven.plugin.version>5.2.0</openapi.generator.maven.plugin.version>
         <jackson.databind.nullable.version>0.2.1</jackson.databind.nullable.version>
@@ -31,8 +31,6 @@
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
-        <joda.money.version>1.0.1</joda.money.version>
-        <jadira.version>6.0.1.GA</jadira.version>
         <swagger.source.filepath>/src/main/resources/api/api.yml</swagger.source.filepath>
     </properties>
 
