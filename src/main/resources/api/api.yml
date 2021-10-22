@@ -148,6 +148,37 @@ paths:
                 '503':
                     description: "Database connection failed"
 
+    /room:
+        post:
+            tags:
+                - "room"
+            summary: "Create a new room"
+            description: "Create a new room"
+            operationId: "createRoom"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/addRoomRequest'
+            responses:
+                '201':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/roomPayload'
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
+                '409':
+                    description: "Conflict"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
 components:
     schemas:
         registerRequest:
@@ -257,15 +288,6 @@ components:
                     type: string
                     minLength: 3
                     maxLength: 150
-                resortType:
-                    type: string
-                    enum:
-                        - APARTMENT
-                        - HOTEL
-                        - MOTEL
-                        - HOSTEL
-                        - PRIVATE_ACCOMMODATION
-                        - HOLIDAY_RESORT
                 country:
                     type: string
                     minLength: 4
@@ -309,16 +331,13 @@ components:
                 hotelDayEnd:
                     type: string
                     pattern: '^\d{2}:\d{2}$'
-                daysOfFreeCancel:
-                    type: integer
-                    minimum: 1
                 isParkingAvailable:
                     type: boolean
                 parkingFee:
                     type: string
-                    minLength: 3
+                    minLength: 1
                     maxLength: 12
-                    pattern: '^\d+\.\d{1,3}$'
+                    pattern: '^(\d+\.\d{1,2})|(\d{1,9})$'
                 parkingFeeCurrency:
                     type: string
                     minLength: 3
@@ -326,7 +345,6 @@ components:
                     pattern: '^[A-Z]{3}$'
             required:
                 - resortName
-                - resortType
                 - country
                 - city
                 - street
@@ -339,3 +357,96 @@ components:
                 - hotelDayEnd
                 - daysOfFreeCancel
                 - isParkingAvailable
+
+        addRoomRequest:
+            type: object
+            properties:
+                resortName:
+                    type: string
+                    minLength: 3
+                    maxLength: 150
+                roomNumber:
+                    type: integer
+                    minimum: 1
+                price:
+                    type: string
+                    minLength: 1
+                    maxLength: 12
+                    pattern: '^(\d+\.\d{1,2})|(\d{1,9})$'
+                priceCurrency:
+                    type: string
+                    minLength: 3
+                    maxLength: 3
+                    pattern: '^[A-Z]{3}$'
+                roomAmenities:
+                    type: array
+                    items:
+                        type: string
+                        enum:
+                            - AIR_CONDITIONING
+                            - KITCHENETTE
+                            - KITCHEN
+                            - BALCONY
+                            - TV
+                            - WASHER
+                            - NETFLIX
+                            - PRIVATE_BATHROOM
+                            - FRIDGE
+                            - MICROWAVE
+                            - IRON
+                singleBedQuantity:
+                    type: integer
+                    minimum: 0
+                doubleeBedQuantity:
+                    type: integer
+                    minimum: 0
+                kingSizeBedQuantity:
+                    type: integer
+                    minimum: 0
+                maxResidentsNumber:
+                    type: integer
+                    minimum: 0
+
+        roomPayload:
+            type: object
+            properties:
+                resortName:
+                    type: string
+                country:
+                    type: string
+                city:
+                    type: string
+                street:
+                    type: string
+                streetNumber:
+                    type: string
+                roomNumber:
+                    type: integer
+                price:
+                    type: string
+                priceCurrency:
+                    type: string
+                roomAmenities:
+                    type: array
+                    items:
+                        type: string
+                        enum:
+                            - AIR_CONDITIONING
+                            - KITCHENETTE
+                            - KITCHEN
+                            - BALCONY
+                            - TV
+                            - WASHER
+                            - NETFLIX
+                            - PRIVATE_BATHROOM
+                            - FRIDGE
+                            - MICROWAVE
+                            - IRON
+                singleBedQuantity:
+                    type: integer
+                doubleBedQuantity:
+                    type: integer
+                kingSizeBedQuantity:
+                    type: integer
+                maxResidentsNumber:
+                    type: integer
