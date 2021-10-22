@@ -397,7 +397,7 @@ components:
                 singleBedQuantity:
                     type: integer
                     minimum: 0
-                doubleeBedQuantity:
+                doubleBedQuantity:
                     type: integer
                     minimum: 0
                 kingSizeBedQuantity:
@@ -405,7 +405,7 @@ components:
                     minimum: 0
                 maxResidentsNumber:
                     type: integer
-                    minimum: 0
+                    minimum: 1
 
         roomPayload:
             type: object
@@ -430,18 +430,6 @@ components:
                     type: array
                     items:
                         type: string
-                        enum:
-                            - AIR_CONDITIONING
-                            - KITCHENETTE
-                            - KITCHEN
-                            - BALCONY
-                            - TV
-                            - WASHER
-                            - NETFLIX
-                            - PRIVATE_BATHROOM
-                            - FRIDGE
-                            - MICROWAVE
-                            - IRON
                 singleBedQuantity:
                     type: integer
                 doubleBedQuantity:
