@@ -36,10 +36,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    private final UserMapper userMapper;
     private final RefreshTokenService refreshTokenService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
@@ -71,10 +71,9 @@ public class AuthService {
         User user = userMapper.toUser(registerRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(defaultRole));
-        userRepository.save(user);
 
         log.info("Registered a new user with email: " + registerRequest.getEmail());
-        return userMapper.toRegisterResponse(user);
+        return userMapper.toRegisterResponse(userRepository.save(user));
     }
 
     /**

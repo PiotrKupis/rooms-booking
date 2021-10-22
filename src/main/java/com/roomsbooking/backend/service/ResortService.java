@@ -34,8 +34,8 @@ public class ResortService {
             }
         );
         Resort resort = resortMapper.toResort(resortPayload, authService.getCurrentUser());
-        resortRepository.save(resort);
-        log.info("Saved a new resort " + resort);
-        return resortMapper.toResortPayload(resort);
+        Resort savedResort = resortRepository.save(resort);
+        log.info("Saved a new resort " + savedResort);
+        return resortMapper.toResortPayload(savedResort);
     }
 }
