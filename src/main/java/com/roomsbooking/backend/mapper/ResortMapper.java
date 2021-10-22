@@ -20,7 +20,6 @@ import org.mapstruct.Mapping;
 public abstract class ResortMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "resortType", expression = "java(com.roomsbooking.backend.enums.ResortType.valueOf(resortPayload.getResortType().toString()))")
     @Mapping(target = "address.country", source = "resortPayload.country")
     @Mapping(target = "address.city", source = "resortPayload.city")
     @Mapping(target = "address.street", source = "resortPayload.street")
@@ -29,6 +28,7 @@ public abstract class ResortMapper {
     @Mapping(target = "hotelDayStart", expression = "java(java.time.LocalTime.parse(resortPayload.getHotelDayStart()))")
     @Mapping(target = "hotelDayEnd", expression = "java(java.time.LocalTime.parse(resortPayload.getHotelDayEnd()))")
     @Mapping(target = "parkingFee", expression = "java(new java.math.BigDecimal(resortPayload.getParkingFee()))")
+    @Mapping(target = "rooms", ignore = true)
     public abstract Resort toResort(ResortPayload resortPayload, User owner);
 
     public Set<ResortAmenity> toResortAmenityEnums(List<ResortAmenitiesEnum> list) {
@@ -37,7 +37,6 @@ public abstract class ResortMapper {
             .collect(Collectors.toCollection(HashSet::new));
     }
 
-    @Mapping(target = "resortType", expression = "java(com.roomsbooking.dto.ResortPayload.ResortTypeEnum.valueOf(resort.getResortType().toString()))")
     @Mapping(target = "country", source = "address.country")
     @Mapping(target = "city", source = "address.city")
     @Mapping(target = "street", source = "address.street")
