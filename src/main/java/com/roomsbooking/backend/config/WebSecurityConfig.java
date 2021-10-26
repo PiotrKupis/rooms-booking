@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/auth/logout")
             .hasAnyAuthority("ADMIN", "MODERATOR", "USER")
             .antMatchers(HttpMethod.POST, "/resort", "/room").hasAnyAuthority("ADMIN", "MODERATOR")
+            .antMatchers("/resort/{email}").hasAnyAuthority("ADMIN", "MODERATOR")
             .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-docs")
             .permitAll()
             .anyRequest().authenticated();
