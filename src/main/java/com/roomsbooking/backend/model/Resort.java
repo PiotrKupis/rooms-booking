@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
@@ -49,9 +50,8 @@ public class Resort {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id",
-        referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
     @NotBlank

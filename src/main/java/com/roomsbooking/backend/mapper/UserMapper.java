@@ -17,6 +17,7 @@ public interface UserMapper {
     @Mapping(target = "phoneNumber.phoneNumber", source = "phoneNumber")
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "isActive", constant = "true")
+    @Mapping(target = "resorts", ignore = true)
     User toUser(RegisterRequest registerRequest);
 
     RegisterResponse toRegisterResponse(User user);

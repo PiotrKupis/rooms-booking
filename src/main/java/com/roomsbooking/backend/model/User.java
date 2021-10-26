@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,7 +21,8 @@ import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,8 +33,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-@ToString
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "resorts")
+@ToString(exclude = "resorts")
 @Entity(name = "users")
 public class User {
 
@@ -79,4 +83,7 @@ public class User {
     @NotNull
     @Column(nullable = false, name = "is_active")
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Resort> resorts = new HashSet<>();
 }
