@@ -118,7 +118,6 @@ paths:
                 '503':
                     description: "Database connection failed"
 
-
     /resort:
         post:
             tags:
@@ -143,6 +142,35 @@ paths:
                     description: "Bad request"
                 '409':
                     description: "Conflict"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
+    /resort/{email}:
+        get:
+            tags:
+                - "resort"
+            summary: "Get resorts by owner email"
+            description: "Get resorts by owner email"
+            operationId: "getResortsByEmail"
+            parameters:
+                -   name: email
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '201':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/resortPayloadList'
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
                 '500':
                     description: "Internal server error"
                 '503':
@@ -438,3 +466,8 @@ components:
                     type: integer
                 maxResidentsNumber:
                     type: integer
+
+        resortPayloadList:
+            type: array
+            items:
+                $ref: '#/components/schemas/resortPayload'
