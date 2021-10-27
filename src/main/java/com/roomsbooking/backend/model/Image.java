@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import lombok.ToString;
  */
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "room")
@@ -34,8 +36,12 @@ public class Image {
     private Long id;
 
     @NotNull
-    @Column(name = "image_name", nullable = false)
-    private String imageName;
+    @Column(nullable = false)
+    private String name;
+
+    @NotNull
+    @Column(nullable = false)
+    private String type;
 
     @Column(length = 1000, nullable = false)
     private byte[] bytes;

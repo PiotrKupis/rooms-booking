@@ -12,7 +12,10 @@
             <column name="bytes" type="binary">
                 <constraints nullable="false"/>
             </column>
-            <column name="image_name" type="varchar(255)">
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="room_id" type="bigint">
