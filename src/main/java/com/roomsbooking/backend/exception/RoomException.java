@@ -2,6 +2,7 @@ package com.roomsbooking.backend.exception;
 
 import com.roomsbooking.backend.exception.core.BaseException;
 import com.roomsbooking.backend.exception.core.ConflictException;
+import com.roomsbooking.backend.exception.core.NotFoundException;
 import com.roomsbooking.backend.exception.core.OperationException;
 
 public class RoomException extends BaseException {
@@ -21,5 +22,11 @@ public class RoomException extends BaseException {
         return new RoomException(
             OperationException.operationError("Room must have at least one bed",
                 ErrorKey.OPERATION_ROOM_EQUIPMENT_ERROR));
+    }
+
+    public static RoomException roomWithNumberNotFound(Integer number) {
+        return new RoomException(
+            NotFoundException.notFound("Room with number " + number + " not found",
+                ErrorKey.NOT_FOUND_ROOM_ERROR));
     }
 }

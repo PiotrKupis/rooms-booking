@@ -8,6 +8,7 @@ public class ErrorKey {
     public static final String NOT_FOUND_ERROR = "error.general.not.found";
     public static final String NOT_FOUND_USER_ERROR = "error.user.not.found";
     public static final String NOT_FOUND_RESORT_ERROR = "error.resort.not.found";
+    public static final String NOT_FOUND_ROOM_ERROR = "error.room.not.found";
 
     public static final String CRITICAL_ERROR = "error.general.critical";
     public static final String CRITICAL_JWT_KEYSTORE_ERROR = "error.jwt.keystore";
