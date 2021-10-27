@@ -12,6 +12,7 @@ public class ErrorKey {
 
     public static final String CRITICAL_ERROR = "error.general.critical";
     public static final String CRITICAL_JWT_KEYSTORE_ERROR = "error.jwt.keystore";
+    public static final String CRITICAL_PHOTO_PROCESSING_ERROR = "error.photo.processing";
 
     public static final String OPERATION_ERROR = "error.general.operation";
     public static final String OPERATION_PASSWORDS_DO_NOT_MATCH_ERROR = "error.passwords.do.not.match";

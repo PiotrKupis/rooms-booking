@@ -2,6 +2,7 @@ package com.roomsbooking.backend.exception;
 
 import com.roomsbooking.backend.exception.core.BaseException;
 import com.roomsbooking.backend.exception.core.ConflictException;
+import com.roomsbooking.backend.exception.core.CriticalException;
 import com.roomsbooking.backend.exception.core.NotFoundException;
 import com.roomsbooking.backend.exception.core.OperationException;
 
@@ -28,5 +29,11 @@ public class RoomException extends BaseException {
         return new RoomException(
             NotFoundException.notFound("Room with number " + number + " not found",
                 ErrorKey.NOT_FOUND_ROOM_ERROR));
+    }
+
+    public static RoomException errorOfPhotoProcessing() {
+        return new RoomException(
+            CriticalException.critical("Error with processing room photo",
+                ErrorKey.CRITICAL_PHOTO_PROCESSING_ERROR));
     }
 }
