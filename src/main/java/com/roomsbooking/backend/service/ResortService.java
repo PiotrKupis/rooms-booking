@@ -52,6 +52,7 @@ public class ResortService {
      * @return list of objects of type {@link ResortPayload}
      */
     public List<ResortPayload> getResortsByEmail(String email) {
+        log.info("Getting resorts by owner's email: " + email);
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> UserException.userNotFound(email));
 
