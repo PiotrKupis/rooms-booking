@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Api(tags = "room")
@@ -19,5 +20,11 @@ public class RoomController implements RoomApi {
     @Override
     public ResponseEntity<RoomPayload> createRoom(AddRoomRequest addRoomRequest) {
         return ResponseEntity.ok(roomService.createRoom(addRoomRequest));
+    }
+
+    @Override
+    public ResponseEntity<String> addImage(String resortName, Integer roomNumber,
+        MultipartFile image) {
+        return ResponseEntity.ok(roomService.addRoomImage(resortName, roomNumber, image));
     }
 }
