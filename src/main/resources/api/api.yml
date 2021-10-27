@@ -161,7 +161,7 @@ paths:
                     schema:
                         type: string
             responses:
-                '201':
+                '200':
                     description: 'Operation successful'
                     content:
                         application/json:
@@ -202,6 +202,41 @@ paths:
                     description: "Not found"
                 '409':
                     description: "Conflict"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
+    /room/{resort-name}:
+        post:
+            tags:
+                - "room"
+            summary: "Add image of a room"
+            description: "Add image of a room"
+            operationId: "addImage"
+            parameters:
+                -   name: resort-name
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/imagePayload'
+            responses:
+                '201':
+                    description: 'Operation successful'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
                 '500':
                     description: "Internal server error"
                 '503':
@@ -466,6 +501,16 @@ components:
                     type: integer
                 maxResidentsNumber:
                     type: integer
+
+        imagePayload:
+            type: object
+            properties:
+                roomNumber:
+                    type: integer
+                    minimum: 1
+                image:
+                    type: string
+                    format: binary
 
         resortPayloadList:
             type: array
