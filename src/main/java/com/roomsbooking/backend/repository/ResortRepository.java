@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository responsible for managing object of type {@link Resort}
+ * Repository responsible for managing object of type {@link Resort}.
  */
 @Repository
 public interface ResortRepository extends JpaRepository<Resort, Long> {

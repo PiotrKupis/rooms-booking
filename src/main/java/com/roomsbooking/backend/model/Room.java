@@ -37,8 +37,8 @@ import lombok.ToString;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "resort")
-@ToString(exclude = "resort")
+@EqualsAndHashCode(exclude = {"resort", "images"})
+@ToString(exclude = {"resort", "images"})
 @Entity(name = "room")
 public class Room {
 

@@ -207,7 +207,7 @@ paths:
                 '503':
                     description: "Database connection failed"
 
-    /room/{resort-name}:
+    /room/{resort-name}/{room-number}:
         post:
             tags:
                 - "room"
@@ -220,12 +220,22 @@ paths:
                     required: true
                     schema:
                         type: string
+                -   name: room-number
+                    in: path
+                    required: true
+                    schema:
+                        type: integer
+                        minimum: 1
             requestBody:
                 required: true
                 content:
-                    application/json:
+                    multipart/form-data:
                         schema:
-                            $ref: '#/components/schemas/imagePayload'
+                            type: object
+                            properties:
+                                image:
+                                    type: string
+                                    format: binary
             responses:
                 '201':
                     description: 'Operation successful'
@@ -501,16 +511,6 @@ components:
                     type: integer
                 maxResidentsNumber:
                     type: integer
-
-        imagePayload:
-            type: object
-            properties:
-                roomNumber:
-                    type: integer
-                    minimum: 1
-                image:
-                    type: string
-                    format: binary
 
         resortPayloadList:
             type: array
