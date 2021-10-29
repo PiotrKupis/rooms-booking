@@ -66,7 +66,7 @@ public class RoomService {
      *
      * @param resortName name of a resort connected with a specific room
      * @param roomNumber number of a room, to which the photo is added
-     * @param image room photo to be saved
+     * @param image      room photo to be saved
      * @return success message
      */
     public String addRoomImage(String resortName, Integer roomNumber, MultipartFile image) {
@@ -90,12 +90,13 @@ public class RoomService {
                 .bytes(compressBytes(image.getBytes()))
                 .room(room)
                 .build();
-            newImage  = imageRepository.save(newImage);
+            newImage = imageRepository.save(newImage);
             log.info("Saved a new photo: " + newImage.getName());
         } catch (IOException e) {
             throw RoomException.errorOfPhotoProcessing();
         }
-        return "Added room photo";
+
+        return "\"Added room photo\"";
     }
 
     private byte[] compressBytes(byte[] data) {
