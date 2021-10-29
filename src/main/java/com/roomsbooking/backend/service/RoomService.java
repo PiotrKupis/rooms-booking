@@ -7,8 +7,10 @@ import com.roomsbooking.backend.model.Image;
 import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.ImageRepository;
+import com.roomsbooking.backend.repository.ResortRepository;
 import com.roomsbooking.backend.repository.RoomRepository;
 import com.roomsbooking.dto.AddRoomRequest;
+import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,6 +32,7 @@ public class RoomService {
 
     private final AuthService authService;
     private final RoomRepository roomRepository;
+    private final ResortRepository resortRepository;
     private final ImageRepository imageRepository;
     private final RoomMapper roomMapper;
 
@@ -99,6 +102,28 @@ public class RoomService {
         return "\"Added room photo\"";
     }
 
+    public ImagePayload getRoomImages(String resortName, Integer roomNumber) {
+
+        log.info(
+            "Getting photos of room nr " + roomNumber + " of " + resortName + " resort");
+
+        Resort resort = resortRepository.findByResortName(resortName)
+            .orElseThrow(() -> ResortException.resortNotFound(resortName));
+
+        Room room = resort.getRooms().stream()
+            .filter(r -> r.getRoomNumber().equals(roomNumber))
+            .findFirst()
+            .orElseThrow(() -> RoomException.roomWithNumberNotFound(roomNumber));
+
+        Image image = room.getImages().stream().findFirst().get();
+        ImagePayload imagePayload = new ImagePayload();
+        imagePayload.setType(image.getType());
+        imagePayload.setName(image.getName());
+        imagePayload.setBytes(decompressBytes(image.getBytes()));
+
+        return imagePayload;
+    }
+
     private byte[] compressBytes(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setInput(data);
@@ -133,4 +158,6 @@ public class RoomService {
         }
         return outputStream.toByteArray();
     }
+
+
 }

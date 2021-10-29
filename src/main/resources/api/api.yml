@@ -208,6 +208,40 @@ paths:
                     description: "Database connection failed"
 
     /room/{resort-name}/{room-number}:
+        get:
+            tags:
+                - "room"
+            summary: "Get room photos"
+            description: "Get room photos"
+            operationId: "getRoomImages"
+            parameters:
+                -   name: resort-name
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                -   name: room-number
+                    in: path
+                    required: true
+                    schema:
+                        type: integer
+                        minimum: 1
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/imagePayload'
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
         post:
             tags:
                 - "room"
@@ -511,6 +545,17 @@ components:
                     type: integer
                 maxResidentsNumber:
                     type: integer
+
+        imagePayload:
+            type: object
+            properties:
+                name:
+                    type: string
+                type:
+                    type: string
+                bytes:
+                    type: string
+                    format: byte
 
         resortPayloadList:
             type: array

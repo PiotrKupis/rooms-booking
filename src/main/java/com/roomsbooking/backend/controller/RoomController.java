@@ -3,6 +3,7 @@ package com.roomsbooking.backend.controller;
 import com.roomsbooking.backend.service.RoomService;
 import com.roomsbooking.controller.RoomApi;
 import com.roomsbooking.dto.AddRoomRequest;
+import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,10 @@ public class RoomController implements RoomApi {
     public ResponseEntity<String> addImage(String resortName, Integer roomNumber,
         MultipartFile image) {
         return ResponseEntity.ok(roomService.addRoomImage(resortName, roomNumber, image));
+    }
+
+    @Override
+    public ResponseEntity<ImagePayload> getRoomImages(String resortName, Integer roomNumber) {
+        return ResponseEntity.ok(roomService.getRoomImages(resortName, roomNumber));
     }
 }
