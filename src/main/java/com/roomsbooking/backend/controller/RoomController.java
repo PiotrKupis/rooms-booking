@@ -6,6 +6,7 @@ import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
 import io.swagger.annotations.Api;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +31,7 @@ public class RoomController implements RoomApi {
     }
 
     @Override
-    public ResponseEntity<ImagePayload> getRoomImages(String resortName, Integer roomNumber) {
+    public ResponseEntity<List<ImagePayload>> getRoomImages(String resortName, Integer roomNumber) {
         return ResponseEntity.ok(roomService.getRoomImages(resortName, roomNumber));
     }
 }
