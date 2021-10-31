@@ -121,4 +121,15 @@ public class RoomService {
             .map(imageMapper::toImagePayload)
             .collect(Collectors.toList());
     }
+
+    /**
+     * Method responsible for getting all rooms.
+     *
+     * @return list of {@link RoomPayload} objects
+     */
+    public List<RoomPayload> getAllRooms() {
+        return roomRepository.findAll().stream()
+            .map(roomMapper::toRoomPayload)
+            .collect(Collectors.toList());
+    }
 }
