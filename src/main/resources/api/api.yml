@@ -232,7 +232,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/imagePayload'
+                                $ref: '#/components/schemas/imagePayloadList'
                 '400':
                     description: "Bad request"
                 '404':
@@ -561,3 +561,8 @@ components:
             type: array
             items:
                 $ref: '#/components/schemas/resortPayload'
+
+        imagePayloadList:
+            type: array
+            items:
+                $ref: '#/components/schemas/imagePayload'
