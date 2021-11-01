@@ -2,11 +2,14 @@ package com.roomsbooking.backend.mapper;
 
 import com.roomsbooking.backend.enums.RoomAmenity;
 import com.roomsbooking.backend.exception.ResortException;
+import com.roomsbooking.backend.model.Image;
 import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.ResortRepository;
 import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.AddRoomRequest.RoomAmenitiesEnum;
+import com.roomsbooking.dto.DetailedRoomPayload;
+import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +27,8 @@ public abstract class RoomMapper {
 
     @Autowired
     private ResortRepository resortRepository;
+    @Autowired
+    private ImageMapper imageMapper;
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "resort", expression = "java(findResortByName(addRoomRequest.getResortName()))")
@@ -54,6 +59,22 @@ public abstract class RoomMapper {
     public List<String> toRoomAmenityEnums(Set<RoomAmenity> set) {
         return set.stream()
             .map(Enum::toString)
+            .collect(Collectors.toList());
+    }
+
+    @Mapping(target = "resortName", source = "resort.resortName")
+    @Mapping(target = "country", source = "resort.address.country")
+    @Mapping(target = "city", source = "resort.address.city")
+    @Mapping(target = "street", source = "resort.address.street")
+    @Mapping(target = "streetNumber", source = "resort.address.streetNumber")
+    @Mapping(target = "price", expression = "java(room.getPrice().toString())")
+    @Mapping(target = "roomAmenities", expression = "java(toRoomAmenityEnums(room.getRoomAmenities()))")
+    @Mapping(target = "images", expression = "java(toImagePayloadList(room.getImages()))")
+    public abstract DetailedRoomPayload toDetailedRoomPayload(Room room);
+
+    public List<ImagePayload> toImagePayloadList(Set<Image> images) {
+        return images.stream()
+            .map(imageMapper::toImagePayload)
             .collect(Collectors.toList());
     }
 }

@@ -3,6 +3,7 @@ package com.roomsbooking.backend.controller;
 import com.roomsbooking.backend.service.RoomService;
 import com.roomsbooking.controller.RoomApi;
 import com.roomsbooking.dto.AddRoomRequest;
+import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
 import io.swagger.annotations.Api;
@@ -36,7 +37,7 @@ public class RoomController implements RoomApi {
     }
 
     @Override
-    public ResponseEntity<List<RoomPayload>> getAllRooms() {
+    public ResponseEntity<List<DetailedRoomPayload>> getAllRooms() {
         return ResponseEntity.ok(roomService.getAllRooms());
     }
 }

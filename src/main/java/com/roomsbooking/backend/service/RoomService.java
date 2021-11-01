@@ -11,6 +11,7 @@ import com.roomsbooking.backend.repository.ImageRepository;
 import com.roomsbooking.backend.repository.ResortRepository;
 import com.roomsbooking.backend.repository.RoomRepository;
 import com.roomsbooking.dto.AddRoomRequest;
+import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
 import java.io.IOException;
@@ -125,11 +126,11 @@ public class RoomService {
     /**
      * Method responsible for getting all rooms.
      *
-     * @return list of {@link RoomPayload} objects
+     * @return list of {@link DetailedRoomPayload} objects
      */
-    public List<RoomPayload> getAllRooms() {
+    public List<DetailedRoomPayload> getAllRooms() {
         return roomRepository.findAll().stream()
-            .map(roomMapper::toRoomPayload)
+            .map(roomMapper::toDetailedRoomPayload)
             .collect(Collectors.toList());
     }
 }
