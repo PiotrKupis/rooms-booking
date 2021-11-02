@@ -73,9 +73,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .antMatchers("/auth/logout")
             .hasAnyAuthority("ADMIN", "MODERATOR", "USER")
-            .antMatchers(HttpMethod.POST, "/resort", "/room").hasAnyAuthority("ADMIN", "MODERATOR")
-            .antMatchers("/resort/{email}")
+
+            .antMatchers("/resort/{resort-name}")
+            .permitAll()
+            .antMatchers(HttpMethod.POST, "/resort", "/room")
             .hasAnyAuthority("ADMIN", "MODERATOR")
+            .antMatchers("/resort/owner/{email}")
+            .hasAnyAuthority("ADMIN", "MODERATOR")
+
             .antMatchers(HttpMethod.GET, "/room", "/room/{resort-name}/{room-number}",
                 "/room/{resort-name}/{room-number}/photos").permitAll()
             .antMatchers(HttpMethod.POST, "/room/{resort-name}/{room-number}",

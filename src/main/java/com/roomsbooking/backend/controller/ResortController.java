@@ -25,4 +25,9 @@ public class ResortController implements ResortApi {
     public ResponseEntity<List<ResortPayload>> getResortsByEmail(String email) {
         return ResponseEntity.ok(resortService.getResortsByEmail(email));
     }
+
+    @Override
+    public ResponseEntity<ResortPayload> getResortByName(String resortName) {
+        return ResponseEntity.ok(resortService.getResortByName(resortName));
+    }
 }

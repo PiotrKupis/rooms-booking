@@ -60,4 +60,17 @@ public class ResortService {
             .map(resortMapper::toResortPayload)
             .collect(Collectors.toList());
     }
+
+    /**
+     * Method responsible for getting resort by its name.
+     *
+     * @param resortName name of searched resort
+     * @return object of type {@link ResortPayload}
+     */
+    public ResortPayload getResortByName(String resortName) {
+        log.info("Getting resort by name: " + resortName);
+        Resort resort = resortRepository.findByResortName(resortName)
+            .orElseThrow(() -> ResortException.resortNotFound(resortName));
+        return resortMapper.toResortPayload(resort);
+    }
 }
