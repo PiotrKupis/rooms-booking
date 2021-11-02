@@ -109,15 +109,7 @@ public class RoomService {
     public List<ImagePayload> getRoomImages(String resortName, Integer roomNumber) {
         log.info(
             "Getting photos of room nr " + roomNumber + " of " + resortName + " resort");
-
-        Resort resort = resortRepository.findByResortName(resortName)
-            .orElseThrow(() -> ResortException.resortNotFound(resortName));
-
-        Room room = resort.getRooms().stream()
-            .filter(r -> r.getRoomNumber().equals(roomNumber))
-            .findFirst()
-            .orElseThrow(() -> RoomException.roomWithNumberNotFound(roomNumber));
-
+        Room room = getRoomFromDatabase(resortName, roomNumber);
         return room.getImages().stream()
             .map(imageMapper::toImagePayload)
             .collect(Collectors.toList());
@@ -143,7 +135,31 @@ public class RoomService {
         return rooms;
     }
 
+    /**
+     * Method responsible for getting a specific room with photos.
+     *
+     * @param resortName name of a resort connected with a specific room
+     * @param roomNumber number of a specific room
+     * @return object of type {@link DetailedRoomPayload}
+     */
+    public DetailedRoomPayload getRoom(String resortName, Integer roomNumber) {
+        log.info(
+            "Getting room nr " + roomNumber + " of " + resortName + " resort");
+        Room room = getRoomFromDatabase(resortName, roomNumber);
+        return roomMapper.toDetailedRoomPayload(room);
+    }
+
     private int getToPositionOrMaxSize(Integer imageQuantity, DetailedRoomPayload room) {
         return imageQuantity > room.getImages().size() ? room.getImages().size() : imageQuantity;
+    }
+
+    private Room getRoomFromDatabase(String resortName, Integer roomNumber) {
+        Resort resort = resortRepository.findByResortName(resortName)
+            .orElseThrow(() -> ResortException.resortNotFound(resortName));
+
+        return resort.getRooms().stream()
+            .filter(r -> r.getRoomNumber().equals(roomNumber))
+            .findFirst()
+            .orElseThrow(() -> RoomException.roomWithNumberNotFound(roomNumber));
     }
 }

@@ -76,9 +76,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, "/resort", "/room").hasAnyAuthority("ADMIN", "MODERATOR")
             .antMatchers("/resort/{email}")
             .hasAnyAuthority("ADMIN", "MODERATOR")
-            .antMatchers(HttpMethod.POST, "/room/{resort-name}/{room-number}")
+            .antMatchers(HttpMethod.GET, "/room", "/room/{resort-name}/{room-number}",
+                "/room/{resort-name}/{room-number}/photos").permitAll()
+            .antMatchers(HttpMethod.POST, "/room/{resort-name}/{room-number}",
+                "/room/{resort-name}/{room-number}/photo")
             .hasAnyAuthority("ADMIN", "MODERATOR")
-            .antMatchers(HttpMethod.GET, "/room/{resort-name}/{room-number}").permitAll()
             .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-docs")
             .permitAll()
             .anyRequest().authenticated();

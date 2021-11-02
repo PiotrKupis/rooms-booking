@@ -206,8 +206,8 @@ paths:
         post:
             tags:
                 - "room"
-            summary: "Create a new room"
-            description: "Create a new room"
+            summary: "Add a new room"
+            description: "Add a new room"
             operationId: "createRoom"
             requestBody:
                 required: true
@@ -234,6 +234,41 @@ paths:
                     description: "Database connection failed"
 
     /room/{resort-name}/{room-number}:
+        get:
+            tags:
+                - "room"
+            summary: "Get room with photos"
+            description: "Get room with photos"
+            operationId: "getRoom"
+            parameters:
+                -   name: resort-name
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                -   name: room-number
+                    in: path
+                    required: true
+                    schema:
+                        type: integer
+                        minimum: 1
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/detailedRoomPayload'
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
+    /room/{resort-name}/{room-number}/photo:
         get:
             tags:
                 - "room"

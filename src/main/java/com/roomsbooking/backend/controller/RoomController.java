@@ -40,4 +40,9 @@ public class RoomController implements RoomApi {
     public ResponseEntity<List<DetailedRoomPayload>> getAllRooms(Integer imageQuantity) {
         return ResponseEntity.ok(roomService.getAllRooms(imageQuantity));
     }
+
+    @Override
+    public ResponseEntity<DetailedRoomPayload> getRoom(String resortName, Integer roomNumber) {
+        return ResponseEntity.ok(roomService.getRoom(resortName, roomNumber));
+    }
 }
