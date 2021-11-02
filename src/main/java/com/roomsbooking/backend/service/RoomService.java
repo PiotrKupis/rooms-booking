@@ -128,9 +128,22 @@ public class RoomService {
      *
      * @return list of {@link DetailedRoomPayload} objects
      */
-    public List<DetailedRoomPayload> getAllRooms() {
-        return roomRepository.findAll().stream()
+    public List<DetailedRoomPayload> getAllRooms(Integer imageQuantity) {
+        log.info("Getting all rooms with photos");
+        List<DetailedRoomPayload> rooms = roomRepository.findAll().stream()
             .map(roomMapper::toDetailedRoomPayload)
             .collect(Collectors.toList());
+
+        if (imageQuantity != null) {
+            for (DetailedRoomPayload room : rooms) {
+                room.setImages(
+                    room.getImages().subList(0, getToPositionOrMaxSize(imageQuantity, room)));
+            }
+        }
+        return rooms;
+    }
+
+    private int getToPositionOrMaxSize(Integer imageQuantity, DetailedRoomPayload room) {
+        return imageQuantity > room.getImages().size() ? room.getImages().size() : imageQuantity;
     }
 }
