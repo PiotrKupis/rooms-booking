@@ -14,6 +14,7 @@
     <include file="../tables/roomTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/roomAmenityTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/imageTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/reservationTable.xml" relativeToChangelogFile="true"/>
 
     <include file="../loadRoles.xml" relativeToChangelogFile="true"/>
 
