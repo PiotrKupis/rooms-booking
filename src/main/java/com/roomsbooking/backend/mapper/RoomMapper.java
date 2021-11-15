@@ -31,6 +31,8 @@ public abstract class RoomMapper {
     private ImageMapper imageMapper;
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "reservations", ignore = true)
+    @Mapping(target = "images", ignore = true)
     @Mapping(target = "resort", expression = "java(findResortByName(addRoomRequest.getResortName()))")
     @Mapping(target = "price", expression = "java(new java.math.BigDecimal(addRoomRequest.getPrice()))")
     @Mapping(target = "roomAmenities", expression = "java(toRoomAmenities(addRoomRequest.getRoomAmenities()))")

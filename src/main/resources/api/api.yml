@@ -376,6 +376,35 @@ paths:
                 '503':
                     description: "Database connection failed"
 
+    /reservation:
+        post:
+            tags:
+                - "reservation"
+            summary: "Add reservation of the room"
+            description: "Add reservation of the room"
+            operationId: "addReservation"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/reservationPayload'
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/reservationPayload'
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
 components:
     schemas:
         registerRequest:
@@ -513,7 +542,6 @@ components:
                             - JACUZZI
                             - HEATING
                             - FREE_WIFI
-                            - AIR_CONDITIONING
                             - SWIMMING_POOL
                             - PARKING
                 smokingPermitted:
@@ -670,7 +698,6 @@ components:
                 images:
                     $ref: '#/components/schemas/imagePayloadList'
 
-
         imagePayload:
             type: object
             properties:
@@ -681,6 +708,28 @@ components:
                 bytes:
                     type: string
                     format: byte
+
+        reservationPayload:
+            type: object
+            properties:
+                resortName:
+                    type: string
+                    minLength: 3
+                    maxLength: 150
+                roomNumber:
+                    type: integer
+                    minimum: 1
+                startDate:
+                    type: string
+                    pattern: '^\d{2}-\d{2}-\d{4}$'
+                endDate:
+                    type: string
+                    pattern: '^\d{2}-\d{2}-\d{4}$'
+            required:
+                - resortName
+                - roomNumber
+                - startDate
+                - endDate
 
         resortPayloadList:
             type: array
