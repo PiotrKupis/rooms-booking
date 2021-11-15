@@ -21,12 +21,15 @@ public class ErrorKey {
     public static final String OPERATION_JWT_EXPIRED_ERROR = "error.jwt.expired";
     public static final String OPERATION_BAD_CREDENTIALS_ERROR = "error.bad.credentials";
     public static final String OPERATION_ROOM_EQUIPMENT_ERROR = "error.room.equipment";
+    public static final String OPERATION_INCORRECT_FORMAT_ERROR = "error.incorrect.format";
+    public static final String OPERATION_INCORRECT_RANGE_ERROR = "error.incorrect.range";
 
     public static final String CONFLICT_ERROR = "error.general.conflict";
     public static final String CONFLICT_EMAIL_ALREADY_TAKEN_ERROR = "error.email.already.taken";
     public static final String CONFLICT_RESORT_NAME_ALREADY_TAKEN_ERROR = "error.resort.name.already.taken";
     public static final String CONFLICT_UNIQUE_VALUE_ERROR = "error.unique.value";
     public static final String CONFLICT_ROOM_NUMBER_ALREADY_TAKEN_ERROR = "error.room.number.already.taken";
+    public static final String CONFLICT_UNAVAILABLE_TIME_PERIOD_ERROR = "error.unavailable.time.period";
 
     public static final String DB_CONNECTION_ERROR = "error.db.connection";
     public static final String DB_CONSTRAINT_VIOLATION_ERROR = "error.db.constraint.violation";
