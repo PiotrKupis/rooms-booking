@@ -31,6 +31,7 @@
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
+        <spring.cache.version>2.5.6</spring.cache.version>
         <swagger.source.filepath>/src/main/resources/api/api.yml</swagger.source.filepath>
     </properties>
 
@@ -64,6 +65,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring.cache.version}</version>
         </dependency>
 
         <dependency>

@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,6 +35,7 @@ public class ResortService {
      * @param resortPayload object of type {@link ResortPayload}
      * @return object of type {@link ResortPayload}
      */
+    @CachePut("resort")
     public ResortPayload createResort(ResortPayload resortPayload) {
         resortRepository.findByResortName(resortPayload.getResortName()).ifPresent(
             resort -> {
@@ -51,6 +54,7 @@ public class ResortService {
      * @param email email of resorts owner
      * @return list of objects of type {@link ResortPayload}
      */
+    @Cacheable("resort")
     public List<ResortPayload> getResortsByEmail(String email) {
         log.info("Getting resorts by owner's email: " + email);
         User user = userRepository.findByEmail(email)
@@ -67,6 +71,7 @@ public class ResortService {
      * @param resortName name of searched resort
      * @return object of type {@link ResortPayload}
      */
+    @Cacheable("resort")
     public ResortPayload getResortByName(String resortName) {
         log.info("Getting resort by name: " + resortName);
         Resort resort = resortRepository.findByResortName(resortName)

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +45,7 @@ public class RoomService {
      * @param addRoomRequest object of type {@link AddRoomRequest}
      * @return object of type {@link RoomPayload}
      */
+    @CachePut("room")
     public RoomPayload createRoom(AddRoomRequest addRoomRequest) {
         log.info("Add room request \n" + addRoomRequest.toString());
         Room room = roomMapper.toRoom(addRoomRequest);
@@ -73,6 +76,7 @@ public class RoomService {
      * @param image      room photo to be saved
      * @return success message
      */
+    @CachePut("room")
     public String addRoomImage(String resortName, Integer roomNumber, MultipartFile image) {
         log.info(
             "Adding a new photo to room nr " + roomNumber + " of " + resortName + " resort");
@@ -106,6 +110,7 @@ public class RoomService {
      * @param roomNumber number of a specific room
      * @return list of {@link ImagePayload} objects
      */
+    @Cacheable("room")
     public List<ImagePayload> getRoomImages(String resortName, Integer roomNumber) {
         log.info(
             "Getting photos of room nr " + roomNumber + " of " + resortName + " resort");
@@ -120,6 +125,7 @@ public class RoomService {
      *
      * @return list of {@link DetailedRoomPayload} objects
      */
+    @Cacheable("room")
     public List<DetailedRoomPayload> getAllRooms(Integer imageQuantity) {
         log.info("Getting all rooms with photos");
         List<DetailedRoomPayload> rooms = roomRepository.findAll().stream()
@@ -142,6 +148,7 @@ public class RoomService {
      * @param roomNumber number of a specific room
      * @return object of type {@link DetailedRoomPayload}
      */
+    @Cacheable("room")
     public DetailedRoomPayload getRoom(String resortName, Integer roomNumber) {
         log.info(
             "Getting room nr " + roomNumber + " of " + resortName + " resort");
