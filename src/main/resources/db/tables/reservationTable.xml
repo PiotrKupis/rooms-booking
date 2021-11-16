@@ -19,6 +19,10 @@
                 <constraints nullable="false" foreignKeyName="fk_reservation_room"
                     references="room(id)"/>
             </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_reservation_user"
+                    references="users(id)"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

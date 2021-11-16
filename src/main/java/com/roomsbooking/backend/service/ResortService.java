@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class ResortService {
      * @param resortPayload object of type {@link ResortPayload}
      * @return object of type {@link ResortPayload}
      */
-    @CachePut("resort")
+    @CacheEvict(value = "resort", allEntries = true)
     public ResortPayload createResort(ResortPayload resortPayload) {
         resortRepository.findByResortName(resortPayload.getResortName()).ifPresent(
             resort -> {

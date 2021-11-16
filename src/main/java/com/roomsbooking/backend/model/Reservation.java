@@ -29,8 +29,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "room")
-@ToString(exclude = "room")
+@EqualsAndHashCode(exclude = {"room", "user"})
+@ToString(exclude = {"room", "user"})
 @Entity(name = "reservation")
 public class Reservation {
 
@@ -42,6 +42,10 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @NotNull
     @Column(name = "start_date", nullable = false)

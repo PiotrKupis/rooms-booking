@@ -35,8 +35,8 @@ import lombok.ToString;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "resorts")
-@ToString(exclude = "resorts")
+@EqualsAndHashCode(exclude = {"resorts", "reservations"})
+@ToString(exclude = {"resorts", "reservations"})
 @Entity(name = "users")
 public class User {
 
@@ -86,4 +86,7 @@ public class User {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Resort> resorts = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Reservation> reservations = new HashSet<>();
 }

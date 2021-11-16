@@ -7,6 +7,7 @@ import com.roomsbooking.backend.mapper.ReservationMapper;
 import com.roomsbooking.backend.model.Reservation;
 import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.Room;
+import com.roomsbooking.backend.model.User;
 import com.roomsbooking.backend.repository.ReservationRepository;
 import com.roomsbooking.backend.repository.ResortRepository;
 import com.roomsbooking.dto.ReservationPayload;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReservationService {
 
+    private final AuthService authService;
     private final ReservationRepository reservationRepository;
     private final ResortRepository resortRepository;
     private final ReservationMapper reservationMapper;
@@ -35,10 +37,14 @@ public class ReservationService {
      * @return object of type {@link ReservationPayload}
      */
     public ReservationPayload addReservation(ReservationPayload reservationPayload) {
+        log.info("Booking room nr " + reservationPayload.getRoomNumber() + " in resort "
+            + reservationPayload.getResortName());
+
         Reservation reservation;
         try {
             Room room = getRoom(reservationPayload);
-            reservation = reservationMapper.toReservation(reservationPayload, room);
+            User user = authService.getCurrentUser();
+            reservation = reservationMapper.toReservation(reservationPayload, room, user);
         } catch (ParseException e) {
             throw ReservationException.incorrectDateFormat();
         }
@@ -49,10 +55,12 @@ public class ReservationService {
     private Room getRoom(ReservationPayload reservationPayload) throws ParseException {
         String resortName = reservationPayload.getResortName();
         Integer roomNumber = reservationPayload.getRoomNumber();
+
+        Date today = new Date();
         Date startDate = ReservationMapper.dateFormat.parse(reservationPayload.getStartDate());
         Date endDate = ReservationMapper.dateFormat.parse(reservationPayload.getEndDate());
 
-        if (startDate.after(endDate) || startDate.equals(endDate)) {
+        if (today.after(startDate) || startDate.after(endDate) || startDate.equals(endDate)) {
             throw ReservationException.incorrectDateRange();
         }
 

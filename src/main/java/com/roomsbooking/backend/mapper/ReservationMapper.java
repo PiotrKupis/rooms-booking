@@ -2,6 +2,7 @@ package com.roomsbooking.backend.mapper;
 
 import com.roomsbooking.backend.model.Reservation;
 import com.roomsbooking.backend.model.Room;
+import com.roomsbooking.backend.model.User;
 import com.roomsbooking.dto.ReservationPayload;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,8 @@ public abstract class ReservationMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "startDate", expression = "java(dateFormat.parse(reservationPayload.getStartDate()))")
     @Mapping(target = "endDate", expression = "java(dateFormat.parse(reservationPayload.getEndDate()))")
-    public abstract Reservation toReservation(ReservationPayload reservationPayload, Room room)
+    public abstract Reservation toReservation(ReservationPayload reservationPayload, Room room,
+        User user)
         throws ParseException;
 
     @Mapping(target = "resortName", source = "reservation.room.resort.resortName")

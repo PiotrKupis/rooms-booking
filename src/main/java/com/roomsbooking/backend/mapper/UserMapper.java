@@ -18,6 +18,7 @@ public interface UserMapper {
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "isActive", constant = "true")
     @Mapping(target = "resorts", ignore = true)
+    @Mapping(target = "reservations", ignore = true)
     User toUser(RegisterRequest registerRequest);
 
     RegisterResponse toRegisterResponse(User user);
