@@ -81,19 +81,19 @@ public class ReservationService {
         return room;
     }
 
-    private boolean areDateRangesUnavailable(Date startDate, Date endDate,
+    public static boolean areDateRangesUnavailable(Date startDate, Date endDate,
         Reservation reservation) {
         return areDateRangesOverlap(startDate, endDate, reservation) || areDateRangesTheSame(
             startDate, endDate, reservation);
     }
 
-    private boolean areDateRangesOverlap(Date startDate, Date endDate,
+    public static boolean areDateRangesOverlap(Date startDate, Date endDate,
         Reservation reservation) {
         return startDate.before(reservation.getEndDate())
             && reservation.getStartDate().before(endDate);
     }
 
-    private boolean areDateRangesTheSame(Date startDate, Date endDate,
+    public static boolean areDateRangesTheSame(Date startDate, Date endDate,
         Reservation reservation) {
         return startDate.equals(reservation.getStartDate())
             && endDate.equals(reservation.getEndDate());

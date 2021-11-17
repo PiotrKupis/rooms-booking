@@ -376,6 +376,46 @@ paths:
                 '503':
                     description: "Database connection failed"
 
+    /room/search:
+        post:
+            tags:
+                - "room"
+            summary: "Search for specific rooms"
+            description: "Search for specific rooms"
+            operationId: "searchRooms"
+            parameters:
+                -   name: page-number
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 1
+                -   name: rooms-per-page
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 1
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/searchPayload'
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/detailedRoomPayloadList'
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
     /reservation:
         post:
             tags:
@@ -728,6 +768,28 @@ components:
             required:
                 - resortName
                 - roomNumber
+                - startDate
+                - endDate
+
+        searchPayload:
+            type: object
+            properties:
+                location:
+                    type: string
+                    minLength: 3
+                    maxLength: 80
+                residentsNumber:
+                    type: integer
+                    minimum: 1
+                startDate:
+                    type: string
+                    pattern: '^\d{2}-\d{2}-\d{4}$'
+                endDate:
+                    type: string
+                    pattern: '^\d{2}-\d{2}-\d{4}$'
+            required:
+                - location
+                - residentsNumber
                 - startDate
                 - endDate
 

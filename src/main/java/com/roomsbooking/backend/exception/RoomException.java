@@ -36,4 +36,10 @@ public class RoomException extends BaseException {
             CriticalException.critical("Error with processing room photo",
                 ErrorKey.CRITICAL_PHOTO_PROCESSING_ERROR));
     }
+
+    public static RoomException matchingRoomsNotFound() {
+        return new RoomException(
+            NotFoundException.notFound("No room meets the requirements",
+                ErrorKey.NOT_FOUND_ROOM_ERROR));
+    }
 }

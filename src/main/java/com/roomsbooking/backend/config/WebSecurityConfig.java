@@ -83,14 +83,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             .antMatchers(HttpMethod.GET, "/room", "/room/{resort-name}/{room-number}",
                 "/room/{resort-name}/{room-number}/photos").permitAll()
+            .antMatchers("/room/search").permitAll()
             .antMatchers(HttpMethod.POST, "/room/{resort-name}/{room-number}",
                 "/room/{resort-name}/{room-number}/photo")
             .hasAnyAuthority("ADMIN", "MODERATOR")
-            .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-docs")
-            .permitAll()
 
             .antMatchers("/reservation")
             .hasAnyAuthority("ADMIN", "MODERATOR", "USER")
+
+            .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-docs")
+            .permitAll()
             .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

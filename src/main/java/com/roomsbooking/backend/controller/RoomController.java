@@ -6,6 +6,7 @@ import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
+import com.roomsbooking.dto.SearchPayload;
 import io.swagger.annotations.Api;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -44,5 +45,11 @@ public class RoomController implements RoomApi {
     @Override
     public ResponseEntity<DetailedRoomPayload> getRoom(String resortName, Integer roomNumber) {
         return ResponseEntity.ok(roomService.getRoom(resortName, roomNumber));
+    }
+
+    @Override
+    public ResponseEntity<List<DetailedRoomPayload>> searchRooms(SearchPayload searchPayload,
+        Integer pageNumber, Integer roomsPerPage) {
+        return ResponseEntity.ok(roomService.searchRooms(searchPayload, pageNumber, roomsPerPage));
     }
 }
