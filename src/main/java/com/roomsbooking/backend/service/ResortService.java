@@ -66,16 +66,37 @@ public class ResortService {
     }
 
     /**
-     * Method responsible for getting resort by its name.
+     * Method responsible for getting resort payload by its name.
      *
      * @param resortName name of searched resort
      * @return object of type {@link ResortPayload}
      */
     @Cacheable("resort")
-    public ResortPayload getResortByName(String resortName) {
+    public ResortPayload getResortPayloadByName(String resortName) {
         log.info("Getting resort by name: " + resortName);
-        Resort resort = resortRepository.findByResortName(resortName)
+        return resortMapper.toResortPayload(getResortByName(resortName));
+    }
+
+    /**
+     * Method responsible for getting resort of the current user.
+     *
+     * @param resortName name of searched resort
+     * @return object of type {@link Resort}
+     */
+    public Resort getCurrentUserResort(String resortName){
+        return authService.getCurrentUser().getResorts().stream()
+            .filter(r -> r.getResortName().equals(resortName))
+            .findFirst()
             .orElseThrow(() -> ResortException.resortNotFound(resortName));
-        return resortMapper.toResortPayload(resort);
+    }
+
+    /**
+     * Method responsible for getting resort by its name.
+     * @param resortName name of searched resort
+     * @return object of type {@link Resort}
+     */
+    public Resort getResortByName(String resortName){
+        return resortRepository.findByResortName(resortName)
+            .orElseThrow(() -> ResortException.resortNotFound(resortName));
     }
 }

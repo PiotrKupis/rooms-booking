@@ -1,17 +1,14 @@
 package com.roomsbooking.backend.service;
 
 import com.roomsbooking.backend.exception.ReservationException;
-import com.roomsbooking.backend.exception.ResortException;
 import com.roomsbooking.backend.exception.RoomException;
 import com.roomsbooking.backend.mapper.ImageMapper;
 import com.roomsbooking.backend.mapper.ReservationMapper;
 import com.roomsbooking.backend.mapper.RoomMapper;
 import com.roomsbooking.backend.model.Address;
 import com.roomsbooking.backend.model.Image;
-import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.ImageRepository;
-import com.roomsbooking.backend.repository.ResortRepository;
 import com.roomsbooking.backend.repository.RoomRepository;
 import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.DetailedRoomPayload;
@@ -38,9 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class RoomService {
 
-    private final AuthService authService;
+    private final ResortService resortService;
     private final RoomRepository roomRepository;
-    private final ResortRepository resortRepository;
     private final ImageRepository imageRepository;
     private final RoomMapper roomMapper;
     private final ImageMapper imageMapper;
@@ -55,7 +51,6 @@ public class RoomService {
     public RoomPayload createRoom(AddRoomRequest addRoomRequest) {
         log.info("Add room request \n" + addRoomRequest.toString());
         Room room = roomMapper.toRoom(addRoomRequest);
-
         if (room.getSingleBedQuantity() + room.getDoubleBedQuantity()
             + room.getKingSizeBedQuantity() < 1) {
             throw RoomException.lackOfBeds();
@@ -87,12 +82,8 @@ public class RoomService {
         log.info(
             "Adding a new photo to room nr " + roomNumber + " of " + resortName + " resort");
 
-        Resort resort = authService.getCurrentUser().getResorts().stream()
-            .filter(r -> r.getResortName().equals(resortName))
-            .findFirst()
-            .orElseThrow(() -> ResortException.resortNotFound(resortName));
-
-        Room room = resort.getRooms().stream()
+        Room room = resortService.getCurrentUserResort(resortName)
+            .getRooms().stream()
             .filter(r -> r.getRoomNumber().equals(roomNumber))
             .findFirst()
             .orElseThrow(() -> RoomException.roomWithNumberNotFound(roomNumber));
@@ -103,7 +94,6 @@ public class RoomService {
         } catch (IOException e) {
             throw RoomException.errorOfPhotoProcessing();
         }
-
         newImage = imageRepository.save(newImage);
         log.info("Saved a new photo: " + newImage.getName());
         return "\"Added room photo\"";
@@ -120,7 +110,7 @@ public class RoomService {
     public List<ImagePayload> getRoomImages(String resortName, Integer roomNumber) {
         log.info(
             "Getting photos of room nr " + roomNumber + " of " + resortName + " resort");
-        Room room = getRoomFromDatabase(resortName, roomNumber);
+        Room room = getRoomOfResort(resortName, roomNumber);
         return room.getImages().stream()
             .map(imageMapper::toImagePayload)
             .collect(Collectors.toList());
@@ -158,7 +148,7 @@ public class RoomService {
     public DetailedRoomPayload getRoom(String resortName, Integer roomNumber) {
         log.info(
             "Getting room nr " + roomNumber + " of " + resortName + " resort");
-        Room room = getRoomFromDatabase(resortName, roomNumber);
+        Room room = getRoomOfResort(resortName, roomNumber);
         return roomMapper.toDetailedRoomPayload(room);
     }
 
@@ -205,11 +195,9 @@ public class RoomService {
         return imageQuantity > room.getImages().size() ? room.getImages().size() : imageQuantity;
     }
 
-    private Room getRoomFromDatabase(String resortName, Integer roomNumber) {
-        Resort resort = resortRepository.findByResortName(resortName)
-            .orElseThrow(() -> ResortException.resortNotFound(resortName));
-
-        return resort.getRooms().stream()
+    private Room getRoomOfResort(String resortName, Integer roomNumber) {
+        return resortService.getResortByName(resortName)
+            .getRooms().stream()
             .filter(r -> r.getRoomNumber().equals(roomNumber))
             .findFirst()
             .orElseThrow(() -> RoomException.roomWithNumberNotFound(roomNumber));

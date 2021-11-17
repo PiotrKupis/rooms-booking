@@ -28,6 +28,6 @@ public class ResortController implements ResortApi {
 
     @Override
     public ResponseEntity<ResortPayload> getResortByName(String resortName) {
-        return ResponseEntity.ok(resortService.getResortByName(resortName));
+        return ResponseEntity.ok(resortService.getResortPayloadByName(resortName));
     }
 }
