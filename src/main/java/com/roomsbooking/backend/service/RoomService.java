@@ -178,7 +178,7 @@ public class RoomService {
             if (pageNumber != null && roomsPerPage != null) {
                 rooms = rooms.stream()
                     .skip((long) (pageNumber - 1) * roomsPerPage)
-                    .limit((long) (pageNumber - 1) * roomsPerPage + roomsPerPage)
+                    .limit((long) roomsPerPage)
                     .collect(Collectors.toList());
             }
 
