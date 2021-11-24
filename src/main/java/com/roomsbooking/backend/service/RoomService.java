@@ -162,7 +162,7 @@ public class RoomService {
      */
     @Cacheable("room")
     public List<DetailedRoomPayload> searchRooms(SearchPayload searchPayload, Integer pageNumber,
-        Integer roomsPerPage) {
+        Integer roomsPerPage, Integer imageQuantity) {
         log.info("Searching for the specific rooms");
         List<DetailedRoomPayload> rooms = findRoomsMeetingRequirements(searchPayload);
         if (pageNumber != null && roomsPerPage != null) {
@@ -172,11 +172,17 @@ public class RoomService {
                 .collect(Collectors.toList());
         }
 
+        if (imageQuantity != null) {
+            for (DetailedRoomPayload room : rooms) {
+                room.setImages(
+                    room.getImages().subList(0, getToPositionOrMaxSize(imageQuantity, room)));
+            }
+        }
+
         if (rooms.isEmpty()) {
             throw RoomException.matchingRoomsNotFound();
         }
         return rooms;
-
     }
 
     /**
@@ -230,8 +236,8 @@ public class RoomService {
     }
 
     private boolean areLocationsMatching(SearchPayload searchPayload, Room room) {
-        return getRoomAddress(room).getCountry().equals(searchPayload.getLocation())
-            || getRoomAddress(room).getCity().equals(searchPayload.getLocation());
+        return getRoomAddress(room).getCountry().equalsIgnoreCase(searchPayload.getLocation())
+            || getRoomAddress(room).getCity().equalsIgnoreCase(searchPayload.getLocation());
     }
 
     private Address getRoomAddress(Room room) {

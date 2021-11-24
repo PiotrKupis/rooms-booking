@@ -394,6 +394,11 @@ paths:
                     schema:
                         type: integer
                         minimum: 1
+                -   name: image-quantity
+                    in: query
+                    schema:
+                        type: integer
+                        minimum: 1
             requestBody:
                 required: true
                 content:
@@ -417,7 +422,7 @@ paths:
                     description: "Database connection failed"
 
     /room/search/quantity:
-        get:
+        post:
             tags:
                 - "room"
             summary: "Get number of rooms that meets requirements"

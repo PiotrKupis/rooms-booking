@@ -49,8 +49,9 @@ public class RoomController implements RoomApi {
 
     @Override
     public ResponseEntity<List<DetailedRoomPayload>> searchRooms(SearchPayload searchPayload,
-        Integer pageNumber, Integer roomsPerPage) {
-        return ResponseEntity.ok(roomService.searchRooms(searchPayload, pageNumber, roomsPerPage));
+        Integer pageNumber, Integer roomsPerPage, Integer imageQuantity) {
+        return ResponseEntity.ok(
+            roomService.searchRooms(searchPayload, pageNumber, roomsPerPage, imageQuantity));
     }
 
     @Override
