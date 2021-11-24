@@ -416,6 +416,33 @@ paths:
                 '503':
                     description: "Database connection failed"
 
+    /room/search/quantity:
+        get:
+            tags:
+                - "room"
+            summary: "Get number of rooms that meets requirements"
+            description: "Get number of rooms that meets requirements"
+            operationId: "getNumberOfFoundRooms"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/searchPayload'
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
     /reservation:
         post:
             tags:

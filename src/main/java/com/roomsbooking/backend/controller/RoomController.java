@@ -52,4 +52,9 @@ public class RoomController implements RoomApi {
         Integer pageNumber, Integer roomsPerPage) {
         return ResponseEntity.ok(roomService.searchRooms(searchPayload, pageNumber, roomsPerPage));
     }
+
+    @Override
+    public ResponseEntity<String> getNumberOfFoundRooms(SearchPayload searchPayload) {
+        return ResponseEntity.ok(roomService.getNumberOfFoundRooms(searchPayload));
+    }
 }

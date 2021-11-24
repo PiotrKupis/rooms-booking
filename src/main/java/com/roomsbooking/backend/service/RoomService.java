@@ -163,29 +163,45 @@ public class RoomService {
     @Cacheable("room")
     public List<DetailedRoomPayload> searchRooms(SearchPayload searchPayload, Integer pageNumber,
         Integer roomsPerPage) {
+        log.info("Searching for the specific rooms");
+        List<DetailedRoomPayload> rooms = findRoomsMeetingRequirements(searchPayload);
+        if (pageNumber != null && roomsPerPage != null) {
+            rooms = rooms.stream()
+                .skip((long) (pageNumber - 1) * roomsPerPage)
+                .limit((long) roomsPerPage)
+                .collect(Collectors.toList());
+        }
+
+        if (rooms.isEmpty()) {
+            throw RoomException.matchingRoomsNotFound();
+        }
+        return rooms;
+
+    }
+
+    /**
+     * Method responsible for getting number of rooms that meet requirements.
+     *
+     * @param searchPayload object of type {@link SearchPayload}
+     * @return number of rooms that meet requirements
+     */
+    public String getNumberOfFoundRooms(SearchPayload searchPayload) {
+        log.info("Getting number of rooms that meet requirements");
+        int quantity = findRoomsMeetingRequirements(searchPayload).size();
+        return String.format("\"%d\"", quantity);
+    }
+
+    private List<DetailedRoomPayload> findRoomsMeetingRequirements(SearchPayload searchPayload) {
         try {
-            log.info("Searching for the specific rooms");
             Date startDate = ReservationMapper.dateFormat.parse(searchPayload.getStartDate());
             Date endDate = ReservationMapper.dateFormat.parse(searchPayload.getEndDate());
 
-            List<DetailedRoomPayload> rooms = roomRepository.findAll().stream()
+            return roomRepository.findAll().stream()
                 .filter(room -> areLocationsMatching(searchPayload, room))
                 .filter(room -> isResidentNumberMatching(searchPayload, room))
                 .filter(room -> isRoomAvailable(startDate, endDate, room))
                 .map(roomMapper::toDetailedRoomPayload)
                 .collect(Collectors.toList());
-
-            if (pageNumber != null && roomsPerPage != null) {
-                rooms = rooms.stream()
-                    .skip((long) (pageNumber - 1) * roomsPerPage)
-                    .limit((long) roomsPerPage)
-                    .collect(Collectors.toList());
-            }
-
-            if (rooms.isEmpty()) {
-                throw RoomException.matchingRoomsNotFound();
-            }
-            return rooms;
         } catch (ParseException e) {
             throw ReservationException.incorrectDateFormat();
         }
