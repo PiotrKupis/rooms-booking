@@ -83,13 +83,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             .antMatchers(HttpMethod.GET, "/room", "/room/{resort-name}/{room-number}",
                 "/room/{resort-name}/{room-number}/photos").permitAll()
-            .antMatchers("/room/search/quantity", "/room/search").permitAll()
             .antMatchers(HttpMethod.POST, "/room/{resort-name}/{room-number}",
                 "/room/{resort-name}/{room-number}/photo")
             .hasAnyAuthority("ADMIN", "MODERATOR")
 
             .antMatchers("/reservation")
             .hasAnyAuthority("ADMIN", "MODERATOR", "USER")
+
+            .antMatchers("/search", "/search/quantity").permitAll()
 
             .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-docs")
             .permitAll()

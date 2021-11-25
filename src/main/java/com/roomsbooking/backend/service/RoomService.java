@@ -1,11 +1,8 @@
 package com.roomsbooking.backend.service;
 
-import com.roomsbooking.backend.exception.ReservationException;
 import com.roomsbooking.backend.exception.RoomException;
 import com.roomsbooking.backend.mapper.ImageMapper;
-import com.roomsbooking.backend.mapper.ReservationMapper;
 import com.roomsbooking.backend.mapper.RoomMapper;
-import com.roomsbooking.backend.model.Address;
 import com.roomsbooking.backend.model.Image;
 import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.ImageRepository;
@@ -14,10 +11,7 @@ import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.ImagePayload;
 import com.roomsbooking.dto.RoomPayload;
-import com.roomsbooking.dto.SearchPayload;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -152,67 +146,6 @@ public class RoomService {
         return roomMapper.toDetailedRoomPayload(room);
     }
 
-    /**
-     * Method responsible for getting list of specific rooms.
-     *
-     * @param searchPayload object of type {@link SearchPayload}
-     * @param pageNumber    specific part of the searched results
-     * @param roomsPerPage  number of rooms to return
-     * @return list of {@link SearchPayload} objects
-     */
-    @Cacheable("room")
-    public List<DetailedRoomPayload> searchRooms(SearchPayload searchPayload, Integer pageNumber,
-        Integer roomsPerPage, Integer imageQuantity) {
-        log.info("Searching for the specific rooms");
-        List<DetailedRoomPayload> rooms = findRoomsMeetingRequirements(searchPayload);
-        if (pageNumber != null && roomsPerPage != null) {
-            rooms = rooms.stream()
-                .skip((long) (pageNumber - 1) * roomsPerPage)
-                .limit((long) roomsPerPage)
-                .collect(Collectors.toList());
-        }
-
-        if (imageQuantity != null) {
-            for (DetailedRoomPayload room : rooms) {
-                room.setImages(
-                    room.getImages().subList(0, getToPositionOrMaxSize(imageQuantity, room)));
-            }
-        }
-
-        if (rooms.isEmpty()) {
-            throw RoomException.matchingRoomsNotFound();
-        }
-        return rooms;
-    }
-
-    /**
-     * Method responsible for getting number of rooms that meet requirements.
-     *
-     * @param searchPayload object of type {@link SearchPayload}
-     * @return number of rooms that meet requirements
-     */
-    public String getNumberOfFoundRooms(SearchPayload searchPayload) {
-        log.info("Getting number of rooms that meet requirements");
-        int quantity = findRoomsMeetingRequirements(searchPayload).size();
-        return String.format("\"%d\"", quantity);
-    }
-
-    private List<DetailedRoomPayload> findRoomsMeetingRequirements(SearchPayload searchPayload) {
-        try {
-            Date startDate = ReservationMapper.dateFormat.parse(searchPayload.getStartDate());
-            Date endDate = ReservationMapper.dateFormat.parse(searchPayload.getEndDate());
-
-            return roomRepository.findAll().stream()
-                .filter(room -> areLocationsMatching(searchPayload, room))
-                .filter(room -> isResidentNumberMatching(searchPayload, room))
-                .filter(room -> isRoomAvailable(startDate, endDate, room))
-                .map(roomMapper::toDetailedRoomPayload)
-                .collect(Collectors.toList());
-        } catch (ParseException e) {
-            throw ReservationException.incorrectDateFormat();
-        }
-    }
-
     private int getToPositionOrMaxSize(Integer imageQuantity, DetailedRoomPayload room) {
         return imageQuantity > room.getImages().size() ? room.getImages().size() : imageQuantity;
     }
@@ -223,24 +156,5 @@ public class RoomService {
             .filter(r -> r.getRoomNumber().equals(roomNumber))
             .findFirst()
             .orElseThrow(() -> RoomException.roomWithNumberNotFound(roomNumber));
-    }
-
-    private boolean isRoomAvailable(Date startDate, Date endDate, Room room) {
-        return room.getReservations().stream()
-            .noneMatch(reservation ->
-                ReservationService.areDateRangesUnavailable(startDate, endDate, reservation));
-    }
-
-    private boolean isResidentNumberMatching(SearchPayload searchPayload, Room room) {
-        return room.getMaxResidentsNumber().equals(searchPayload.getResidentsNumber());
-    }
-
-    private boolean areLocationsMatching(SearchPayload searchPayload, Room room) {
-        return getRoomAddress(room).getCountry().equalsIgnoreCase(searchPayload.getLocation())
-            || getRoomAddress(room).getCity().equalsIgnoreCase(searchPayload.getLocation());
-    }
-
-    private Address getRoomAddress(Room room) {
-        return room.getResort().getAddress();
     }
 }

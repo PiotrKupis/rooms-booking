@@ -10,6 +10,7 @@ import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.model.User;
 import com.roomsbooking.backend.repository.ReservationRepository;
 import com.roomsbooking.backend.repository.ResortRepository;
+import com.roomsbooking.backend.utils.DateUtils;
 import com.roomsbooking.dto.ReservationPayload;
 import java.text.ParseException;
 import java.util.Date;
@@ -52,13 +53,14 @@ public class ReservationService {
         return reservationMapper.toReservationPayload(reservation);
     }
 
+
     private Room getRoom(ReservationPayload reservationPayload) throws ParseException {
         String resortName = reservationPayload.getResortName();
         Integer roomNumber = reservationPayload.getRoomNumber();
 
         Date today = new Date();
-        Date startDate = ReservationMapper.dateFormat.parse(reservationPayload.getStartDate());
-        Date endDate = ReservationMapper.dateFormat.parse(reservationPayload.getEndDate());
+        Date startDate = DateUtils.dateFormat.parse(reservationPayload.getStartDate());
+        Date endDate = DateUtils.dateFormat.parse(reservationPayload.getEndDate());
 
         if (today.after(startDate) || startDate.after(endDate) || startDate.equals(endDate)) {
             throw ReservationException.incorrectDateRange();
@@ -73,29 +75,15 @@ public class ReservationService {
             .orElseThrow(() -> RoomException.roomWithNumberNotFound(roomNumber));
 
         room.getReservations().stream()
-            .filter(reservation -> areDateRangesUnavailable(startDate, endDate, reservation))
+            .filter(reservation -> DateUtils.areDateRangesOverlapOrAreTheSame(startDate, endDate,
+                reservation.getStartDate(), reservation.getEndDate()))
             .findFirst()
             .ifPresent(reservation -> {
                 throw ReservationException.unavailableTimePeriod();
             });
+
         return room;
     }
 
-    public static boolean areDateRangesUnavailable(Date startDate, Date endDate,
-        Reservation reservation) {
-        return areDateRangesOverlap(startDate, endDate, reservation) || areDateRangesTheSame(
-            startDate, endDate, reservation);
-    }
 
-    public static boolean areDateRangesOverlap(Date startDate, Date endDate,
-        Reservation reservation) {
-        return startDate.before(reservation.getEndDate())
-            && reservation.getStartDate().before(endDate);
-    }
-
-    public static boolean areDateRangesTheSame(Date startDate, Date endDate,
-        Reservation reservation) {
-        return startDate.equals(reservation.getStartDate())
-            && endDate.equals(reservation.getEndDate());
-    }
 }

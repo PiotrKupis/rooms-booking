@@ -376,12 +376,12 @@ paths:
                 '503':
                     description: "Database connection failed"
 
-    /room/search:
+    /search:
         post:
             tags:
-                - "room"
-            summary: "Search for specific rooms"
-            description: "Search for specific rooms"
+                - "search"
+            summary: "Search for specific rooms that meet requirements"
+            description: "Search for specific rooms that meet requirements"
             operationId: "searchRooms"
             parameters:
                 -   name: page-number
@@ -421,10 +421,10 @@ paths:
                 '503':
                     description: "Database connection failed"
 
-    /room/search/quantity:
+    /search/quantity:
         post:
             tags:
-                - "room"
+                - "search"
             summary: "Get number of rooms that meets requirements"
             description: "Get number of rooms that meets requirements"
             operationId: "getNumberOfFoundRooms"
