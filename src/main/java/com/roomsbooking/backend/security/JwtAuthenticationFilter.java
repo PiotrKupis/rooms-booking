@@ -1,7 +1,7 @@
 package com.roomsbooking.backend.security;
 
 import com.roomsbooking.backend.exception.AuthException;
-import com.roomsbooking.backend.service.UserDetailsServiceImplementation;
+import com.roomsbooking.backend.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -28,7 +28,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
-    private final UserDetailsServiceImplementation userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

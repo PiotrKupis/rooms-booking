@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Repository responsible for managing object of type {@link Image}.
  */
 @Repository
-public interface ImageRepository extends JpaRepository<Image, Long> {
+public interface PhotoRepository extends JpaRepository<Image, Long> {
 
 }

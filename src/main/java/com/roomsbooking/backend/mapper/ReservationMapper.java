@@ -16,14 +16,14 @@ public abstract class ReservationMapper {
 
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "startDate", expression = "java(com.roomsbooking.backend.Utils.DateUtils.dateFormat.parse(reservationPayload.getStartDate()))")
-    @Mapping(target = "endDate", expression = "java(com.roomsbooking.backend.Utils.DateUtils.dateFormat.parse(reservationPayload.getEndDate()))")
+    @Mapping(target = "startDate", expression = "java(com.roomsbooking.backend.utils.DateUtils.dateFormat.parse(reservationPayload.getStartDate()))")
+    @Mapping(target = "endDate", expression = "java(com.roomsbooking.backend.utils.DateUtils.dateFormat.parse(reservationPayload.getEndDate()))")
     public abstract Reservation toReservation(ReservationPayload reservationPayload, Room room,
         User user) throws ParseException;
 
     @Mapping(target = "resortName", source = "reservation.room.resort.resortName")
     @Mapping(target = "roomNumber", source = "reservation.room.roomNumber")
-    @Mapping(target = "startDate", expression = "java(com.roomsbooking.backend.Utils.DateUtils.dateFormat.format(reservation.getStartDate()))")
-    @Mapping(target = "endDate", expression = "java(com.roomsbooking.backend.Utils.DateUtils.dateFormat.format(reservation.getEndDate()))")
+    @Mapping(target = "startDate", expression = "java(com.roomsbooking.backend.utils.DateUtils.dateFormat.format(reservation.getStartDate()))")
+    @Mapping(target = "endDate", expression = "java(com.roomsbooking.backend.utils.DateUtils.dateFormat.format(reservation.getEndDate()))")
     public abstract ReservationPayload toReservationPayload(Reservation reservation);
 }

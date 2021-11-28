@@ -3,10 +3,9 @@ package com.roomsbooking.backend.service;
 import com.roomsbooking.backend.exception.ReservationException;
 import com.roomsbooking.backend.exception.RoomException;
 import com.roomsbooking.backend.mapper.RoomMapper;
-import com.roomsbooking.backend.model.Address;
-import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.RoomRepository;
 import com.roomsbooking.backend.utils.DateUtils;
+import com.roomsbooking.backend.utils.PaginationUtils;
 import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.SearchPayload;
 import java.text.ParseException;
@@ -19,7 +18,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
- * Service responsible for managing operations connected with room searching.
+ * Service responsible for managing operations connected with searching.
  */
 @Slf4j
 @AllArgsConstructor
@@ -50,10 +49,7 @@ public class SearchService {
         }
 
         if (imageQuantity != null) {
-            for (DetailedRoomPayload room : rooms) {
-                room.setImages(
-                    room.getImages().subList(0, getToPositionOrMaxSize(imageQuantity, room)));
-            }
+            PaginationUtils.limitImagesPerRoom(rooms, imageQuantity);
         }
 
         if (rooms.isEmpty()) {
@@ -80,37 +76,13 @@ public class SearchService {
             Date endDate = DateUtils.dateFormat.parse(searchPayload.getEndDate());
 
             return roomRepository.findAll().stream()
-                .filter(room -> areLocationsMatching(searchPayload, room))
-                .filter(room -> isResidentNumberMatching(searchPayload, room))
-                .filter(room -> isRoomAvailable(startDate, endDate, room))
+                .filter(r -> r.isLocationMatching(searchPayload.getLocation()))
+                .filter(r -> r.getMaxResidentsNumber().equals(searchPayload.getResidentsNumber()))
+                .filter(r -> r.isIntervalAvailable(startDate, endDate))
                 .map(roomMapper::toDetailedRoomPayload)
                 .collect(Collectors.toList());
         } catch (ParseException e) {
             throw ReservationException.incorrectDateFormat();
         }
-    }
-
-    private int getToPositionOrMaxSize(Integer imageQuantity, DetailedRoomPayload room) {
-        return imageQuantity > room.getImages().size() ? room.getImages().size() : imageQuantity;
-    }
-
-    private boolean isRoomAvailable(Date startDate, Date endDate, Room room) {
-        return room.getReservations().stream()
-            .noneMatch(reservation ->
-                DateUtils.areDateRangesOverlapOrAreTheSame(startDate, endDate,
-                    reservation.getStartDate(), reservation.getEndDate()));
-    }
-
-    private boolean isResidentNumberMatching(SearchPayload searchPayload, Room room) {
-        return room.getMaxResidentsNumber().equals(searchPayload.getResidentsNumber());
-    }
-
-    private boolean areLocationsMatching(SearchPayload searchPayload, Room room) {
-        return getRoomAddress(room).getCountry().equalsIgnoreCase(searchPayload.getLocation())
-            || getRoomAddress(room).getCity().equalsIgnoreCase(searchPayload.getLocation());
-    }
-
-    private Address getRoomAddress(Room room) {
-        return room.getResort().getAddress();
     }
 }

@@ -9,7 +9,7 @@ import com.roomsbooking.backend.repository.ResortRepository;
 import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.AddRoomRequest.RoomAmenitiesEnum;
 import com.roomsbooking.dto.DetailedRoomPayload;
-import com.roomsbooking.dto.ImagePayload;
+import com.roomsbooking.dto.PhotoPayload;
 import com.roomsbooking.dto.RoomPayload;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +28,7 @@ public abstract class RoomMapper {
     @Autowired
     private ResortRepository resortRepository;
     @Autowired
-    private ImageMapper imageMapper;
+    private PhotoMapper photoMapper;
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "reservations", ignore = true)
@@ -71,12 +71,12 @@ public abstract class RoomMapper {
     @Mapping(target = "streetNumber", source = "resort.address.streetNumber")
     @Mapping(target = "price", expression = "java(room.getPrice().toString())")
     @Mapping(target = "roomAmenities", expression = "java(toRoomAmenityEnums(room.getRoomAmenities()))")
-    @Mapping(target = "images", expression = "java(toImagePayloadList(room.getImages()))")
+    @Mapping(target = "photos", expression = "java(toPhotoPayloadList(room.getImages()))")
     public abstract DetailedRoomPayload toDetailedRoomPayload(Room room);
 
-    public List<ImagePayload> toImagePayloadList(Set<Image> images) {
-        return images.stream()
-            .map(imageMapper::toImagePayload)
+    public List<PhotoPayload> toPhotoPayloadList(Set<Image> photos) {
+        return photos.stream()
+            .map(photoMapper::toPhotoPayload)
             .collect(Collectors.toList());
     }
 }

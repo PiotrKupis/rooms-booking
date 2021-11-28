@@ -83,7 +83,7 @@ public class ResortService {
      * @param resortName name of searched resort
      * @return object of type {@link Resort}
      */
-    public Resort getCurrentUserResort(String resortName){
+    public Resort getCurrentUserResort(String resortName) {
         return authService.getCurrentUser().getResorts().stream()
             .filter(r -> r.getResortName().equals(resortName))
             .findFirst()
@@ -92,10 +92,11 @@ public class ResortService {
 
     /**
      * Method responsible for getting resort by its name.
+     *
      * @param resortName name of searched resort
      * @return object of type {@link Resort}
      */
-    public Resort getResortByName(String resortName){
+    public Resort getResortByName(String resortName) {
         return resortRepository.findByResortName(resortName)
             .orElseThrow(() -> ResortException.resortNotFound(resortName));
     }

@@ -213,7 +213,7 @@ paths:
             description: "Get all rooms"
             operationId: "getAllRooms"
             parameters:
-                -   name: image-quantity
+                -   name: photo-quantity
                     in: query
                     schema:
                         type: integer
@@ -297,13 +297,13 @@ paths:
                 '503':
                     description: "Database connection failed"
 
-    /room/{resort-name}/{room-number}/photo:
+    /{resort-name}/{room-number}/photo:
         get:
             tags:
-                - "room"
-            summary: "Get room photos"
-            description: "Get room photos"
-            operationId: "getRoomImages"
+                - "photo"
+            summary: "Get photos of a specific room"
+            description: "Get photos of a specific room"
+            operationId: "getRoomPhotos"
             parameters:
                 -   name: resort-name
                     in: path
@@ -322,7 +322,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/imagePayloadList'
+                                $ref: '#/components/schemas/photoPayloadList'
                 '400':
                     description: "Bad request"
                 '404':
@@ -334,10 +334,10 @@ paths:
 
         post:
             tags:
-                - "room"
-            summary: "Add image of a room"
-            description: "Add image of a room"
-            operationId: "addImage"
+                - "photo"
+            summary: "Add room photo"
+            description: "Add room photo"
+            operationId: "addRoomPhoto"
             parameters:
                 -   name: resort-name
                     in: path
@@ -357,7 +357,7 @@ paths:
                         schema:
                             type: object
                             properties:
-                                image:
+                                photo:
                                     type: string
                                     format: binary
             responses:
@@ -394,7 +394,7 @@ paths:
                     schema:
                         type: integer
                         minimum: 1
-                -   name: image-quantity
+                -   name: photo-quantity
                     in: query
                     schema:
                         type: integer
@@ -767,10 +767,10 @@ components:
                     type: integer
                 maxResidentsNumber:
                     type: integer
-                images:
-                    $ref: '#/components/schemas/imagePayloadList'
+                photos:
+                    $ref: '#/components/schemas/photoPayloadList'
 
-        imagePayload:
+        photoPayload:
             type: object
             properties:
                 name:
@@ -840,7 +840,7 @@ components:
             items:
                 $ref: '#/components/schemas/detailedRoomPayload'
 
-        imagePayloadList:
+        photoPayloadList:
             type: array
             items:
-                $ref: '#/components/schemas/imagePayload'
+                $ref: '#/components/schemas/photoPayload'

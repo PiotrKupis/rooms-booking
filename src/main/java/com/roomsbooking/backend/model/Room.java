@@ -1,7 +1,9 @@
 package com.roomsbooking.backend.model;
 
 import com.roomsbooking.backend.enums.RoomAmenity;
+import com.roomsbooking.backend.utils.DateUtils;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -90,4 +92,15 @@ public class Room {
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
+
+    public boolean isIntervalAvailable(Date startDate, Date endDate) {
+        return reservations.stream().noneMatch(reservation ->
+            DateUtils.areDateRangesOverlapOrAreTheSame(startDate, endDate,
+                reservation.getStartDate(), reservation.getEndDate()));
+    }
+
+    public boolean isLocationMatching(String location) {
+        return resort.getAddress().getCountry().equalsIgnoreCase(location)
+            || resort.getAddress().getCity().equalsIgnoreCase(location);
+    }
 }

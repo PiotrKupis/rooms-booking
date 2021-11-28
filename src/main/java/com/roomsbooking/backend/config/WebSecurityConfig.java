@@ -1,7 +1,7 @@
 package com.roomsbooking.backend.config;
 
 import com.roomsbooking.backend.security.JwtAuthenticationFilter;
-import com.roomsbooking.backend.service.UserDetailsServiceImplementation;
+import com.roomsbooking.backend.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImplementation userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**

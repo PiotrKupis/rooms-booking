@@ -20,10 +20,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    @Value("${security.jwt.expiration.time}")
-    private Long jwtExpirationInMillis;
     private final RSAPrivateKey privateKey;
     private final RSAPublicKey publicKey;
+    @Value("${security.jwt.expiration.time}")
+    private Long jwtExpirationInMillis;
 
     /**
      * Method responsible for generating JWT for a user.
