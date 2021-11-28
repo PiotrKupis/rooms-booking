@@ -19,9 +19,9 @@ public class SearchController implements SearchApi {
 
     @Override
     public ResponseEntity<List<DetailedRoomPayload>> searchRooms(SearchPayload searchPayload,
-        Integer pageNumber, Integer roomsPerPage, Integer imageQuantity) {
+        Integer pageNumber, Integer roomsPerPage, Integer photosPerPage) {
         return ResponseEntity.ok(
-            searchService.searchRooms(searchPayload, pageNumber, roomsPerPage, imageQuantity));
+            searchService.searchRooms(searchPayload, pageNumber, roomsPerPage, photosPerPage));
     }
 
     @Override

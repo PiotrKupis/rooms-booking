@@ -38,7 +38,7 @@ public class SearchService {
      */
     @Cacheable("room")
     public List<DetailedRoomPayload> searchRooms(SearchPayload searchPayload, Integer pageNumber,
-        Integer roomsPerPage, Integer imageQuantity) {
+        Integer roomsPerPage, Integer photosPerPage) {
         log.info("Searching for the specific rooms");
         List<DetailedRoomPayload> rooms = findRoomsMeetingRequirements(searchPayload);
         if (pageNumber != null && roomsPerPage != null) {
@@ -48,8 +48,8 @@ public class SearchService {
                 .collect(Collectors.toList());
         }
 
-        if (imageQuantity != null) {
-            PaginationUtils.limitImagesPerRoom(rooms, imageQuantity);
+        if (photosPerPage != null) {
+            PaginationUtils.limitImagesPerRoom(rooms, photosPerPage);
         }
 
         if (rooms.isEmpty()) {

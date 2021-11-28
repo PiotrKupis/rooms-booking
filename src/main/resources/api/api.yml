@@ -394,7 +394,7 @@ paths:
                     schema:
                         type: integer
                         minimum: 1
-                -   name: photo-quantity
+                -   name: photos-per-room
                     in: query
                     schema:
                         type: integer
