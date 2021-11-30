@@ -1,13 +1,13 @@
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 
-    <changeSet id="1" author="pkupis">
+    <changeSet author="pkupis" id="1">
         <createTable tableName="resort_amenity">
             <column name="resort_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_resort_amenity"
+                <constraints foreignKeyName="fk_resort_amenity" nullable="false"
                     references="resort(id)"/>
             </column>
             <column name="amenity" type="varchar(255)">

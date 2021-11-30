@@ -27,8 +27,8 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode(exclude = "room")
 @ToString(exclude = "room")
-@Entity(name = "image")
-public class Image {
+@Entity(name = "photo")
+public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +37,15 @@ public class Image {
 
     @NotNull
     @Column(nullable = false)
-    private String name;
+    private Integer position;
+
+    @NotNull
+    @Column(name = "cloudinary_id", nullable = false)
+    private String cloudinaryId;
 
     @NotNull
     @Column(nullable = false)
-    private String type;
-
-    @Column(length = 1000, nullable = false)
-    private byte[] bytes;
+    private String url;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)

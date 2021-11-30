@@ -2,6 +2,7 @@ package com.roomsbooking.backend.service;
 
 import com.roomsbooking.backend.exception.RoomException;
 import com.roomsbooking.backend.mapper.RoomMapper;
+import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.RoomRepository;
 import com.roomsbooking.backend.utils.PaginationUtils;
@@ -97,7 +98,22 @@ public class RoomService {
      * @return object of type {@link Room}
      */
     public Room getRoomOfResort(String resortName, Integer roomNumber) {
-        return resortService.getResortByName(resortName)
+        return getSpecificRoom(roomNumber, resortService.getResortByName(resortName));
+    }
+
+    /**
+     * Method responsible for getting current user's room by its resort and room number.
+     *
+     * @param resortName name of resort connected with the room
+     * @param roomNumber number of the specific room
+     * @return object of type {@link Room}
+     */
+    public Room getCurrentUserRoom(String resortName, Integer roomNumber) {
+        return getSpecificRoom(roomNumber, resortService.getCurrentUserResort(resortName));
+    }
+
+    private Room getSpecificRoom(Integer roomNumber, Resort resort) {
+        return resort
             .getRooms().stream()
             .filter(r -> r.getRoomNumber().equals(roomNumber))
             .findFirst()

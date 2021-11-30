@@ -1,18 +1,18 @@
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 
-    <changeSet id="1" author="pkupis">
+    <changeSet author="pkupis" id="1">
         <createTable tableName="refresh_token">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column autoIncrement="true" name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
             <column name="token" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="creation_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
+            <column defaultValueDate="CURRENT_TIMESTAMP" name="creation_date" type="timestamp">
                 <constraints nullable="false"/>
             </column>
         </createTable>

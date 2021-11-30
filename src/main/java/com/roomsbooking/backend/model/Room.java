@@ -39,8 +39,8 @@ import lombok.ToString;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"resort", "images"})
-@ToString(exclude = {"resort", "images"})
+@EqualsAndHashCode(exclude = {"resort", "photos"})
+@ToString(exclude = {"resort", "photos"})
 @Entity(name = "room")
 public class Room {
 
@@ -88,7 +88,7 @@ public class Room {
     private Integer maxResidentsNumber;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Image> images = new HashSet<>();
+    private Set<Photo> photos = new HashSet<>();
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();

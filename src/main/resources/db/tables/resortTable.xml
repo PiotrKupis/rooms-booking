@@ -1,32 +1,32 @@
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 
-    <changeSet id="1" author="pkupis">
+    <changeSet author="pkupis" id="1">
         <createTable tableName="resort">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column autoIncrement="true" name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
             <column name="owner_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_resort_user"
+                <constraints foreignKeyName="fk_resort_user" nullable="false"
                     references="users(id)"/>
             </column>
             <column name="resort_name" type="varchar(150)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="address_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_resort_address"
+                <constraints foreignKeyName="fk_resort_address" nullable="false"
                     references="address(id)"/>
             </column>
-            <column name="smoking_permitted" type="boolean" defaultValue="false">
+            <column defaultValue="false" name="smoking_permitted" type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="animals_permitted" type="boolean" defaultValue="false">
+            <column defaultValue="false" name="animals_permitted" type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="party_permitted" type="boolean" defaultValue="false">
+            <column defaultValue="false" name="party_permitted" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="hotel_day_start" type="time">
@@ -35,7 +35,7 @@
             <column name="hotel_day_end" type="time">
                 <constraints nullable="false"/>
             </column>
-            <column name="is_parking_available" type="boolean" defaultValue="false">
+            <column defaultValue="false" name="is_parking_available" type="boolean">
                 <constraints nullable="false"/>
             </column>
             <column name="parking_fee_currency" type="varchar(3)"/>

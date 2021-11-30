@@ -1,6 +1,6 @@
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="../tables/phoneNumberTable.xml" relativeToChangelogFile="true"/>
@@ -13,7 +13,7 @@
     <include file="../tables/resortAmenityTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/roomTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/roomAmenityTable.xml" relativeToChangelogFile="true"/>
-    <include file="../tables/imageTable.xml" relativeToChangelogFile="true"/>
+    <include file="../tables/photoTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/reservationTable.xml" relativeToChangelogFile="true"/>
 
     <include file="../loadRoles.xml" relativeToChangelogFile="true"/>

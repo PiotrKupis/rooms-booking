@@ -30,6 +30,7 @@ public class ErrorKey {
     public static final String CONFLICT_UNIQUE_VALUE_ERROR = "error.unique.value";
     public static final String CONFLICT_ROOM_NUMBER_ALREADY_TAKEN_ERROR = "error.room.number.already.taken";
     public static final String CONFLICT_UNAVAILABLE_TIME_PERIOD_ERROR = "error.unavailable.time.period";
+    public static final String CONFLICT_PHOTO_POSITION_TAKEN_ERROR = "error.photo.position.taken";
 
     public static final String DB_CONNECTION_ERROR = "error.db.connection";
     public static final String DB_CONSTRAINT_VIOLATION_ERROR = "error.db.constraint.violation";

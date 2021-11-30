@@ -353,20 +353,16 @@ paths:
             requestBody:
                 required: true
                 content:
-                    multipart/form-data:
+                    application/json:
                         schema:
-                            type: object
-                            properties:
-                                photo:
-                                    type: string
-                                    format: binary
+                            $ref: '#/components/schemas/addPhotoRequest'
             responses:
                 '201':
                     description: 'Operation successful'
                     content:
-                        text/plain:
+                        application/json:
                             schema:
-                                type: string
+                                $ref: '#/components/schemas/photoPayload'
                 '400':
                     description: "Bad request"
                 '404':
@@ -770,16 +766,27 @@ components:
                 photos:
                     $ref: '#/components/schemas/photoPayloadList'
 
+        addPhotoRequest:
+            type: object
+            properties:
+                data:
+                    type: string
+                    description: base64 image
+                position:
+                    type: integer
+                    minimum: 1
+            required:
+                - data
+                - position
+
         photoPayload:
             type: object
             properties:
-                name:
+                url:
                     type: string
-                type:
-                    type: string
-                bytes:
-                    type: string
-                    format: byte
+                position:
+                    type: integer
+                    minimum: 1
 
         reservationPayload:
             type: object

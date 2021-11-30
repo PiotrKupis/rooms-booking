@@ -2,7 +2,7 @@ package com.roomsbooking.backend.mapper;
 
 import com.roomsbooking.backend.enums.RoomAmenity;
 import com.roomsbooking.backend.exception.ResortException;
-import com.roomsbooking.backend.model.Image;
+import com.roomsbooking.backend.model.Photo;
 import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.ResortRepository;
@@ -32,7 +32,7 @@ public abstract class RoomMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "reservations", ignore = true)
-    @Mapping(target = "images", ignore = true)
+    @Mapping(target = "photos", ignore = true)
     @Mapping(target = "resort", expression = "java(findResortByName(addRoomRequest.getResortName()))")
     @Mapping(target = "price", expression = "java(new java.math.BigDecimal(addRoomRequest.getPrice()))")
     @Mapping(target = "roomAmenities", expression = "java(toRoomAmenities(addRoomRequest.getRoomAmenities()))")
@@ -71,10 +71,10 @@ public abstract class RoomMapper {
     @Mapping(target = "streetNumber", source = "resort.address.streetNumber")
     @Mapping(target = "price", expression = "java(room.getPrice().toString())")
     @Mapping(target = "roomAmenities", expression = "java(toRoomAmenityEnums(room.getRoomAmenities()))")
-    @Mapping(target = "photos", expression = "java(toPhotoPayloadList(room.getImages()))")
+    @Mapping(target = "photos", expression = "java(toPhotoPayloadList(room.getPhotos()))")
     public abstract DetailedRoomPayload toDetailedRoomPayload(Room room);
 
-    public List<PhotoPayload> toPhotoPayloadList(Set<Image> photos) {
+    public List<PhotoPayload> toPhotoPayloadList(Set<Photo> photos) {
         return photos.stream()
             .map(photoMapper::toPhotoPayload)
             .collect(Collectors.toList());

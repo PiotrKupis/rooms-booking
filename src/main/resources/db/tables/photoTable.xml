@@ -1,25 +1,25 @@
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 
-    <changeSet id="1" author="pkupis">
-        <createTable tableName="image">
-            <column name="id" type="bigint" autoIncrement="true">
+    <changeSet author="pkupis" id="1">
+        <createTable tableName="photo">
+            <column autoIncrement="true" name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="bytes" type="binary">
+            <column name="cloudinary_id" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="url" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="type" type="varchar(100)">
+            <column name="position" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="room_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_image_room"
+                <constraints foreignKeyName="fk_image_room" nullable="false"
                     references="room(id)"/>
             </column>
         </createTable>
