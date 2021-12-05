@@ -23,7 +23,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/registerResponse'
+                                $ref: '#/components/schemas/userPayload'
                 '400':
                     description: "Bad request"
                 '409':
@@ -113,6 +113,65 @@ paths:
                     description: "Bad request"
                 '404':
                     description: "Not found"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+    /user:
+        get:
+            tags:
+                - "user"
+            summary: "Get all users"
+            description: "Get all users"
+            operationId: "getAllUsers"
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userPayloadList'
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
+    /user/{email}/{role}:
+        post:
+            tags:
+                - "user"
+            summary: "Change user role"
+            description: "Change user role"
+            operationId: "changeRole"
+            parameters:
+                -   name: email
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                        minLength: 5
+                        maxLength: 200
+                        pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
+                -   name: role
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                        enum:
+                            - ADMIN
+                            - MODERATOR
+                            - USER
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userPayload'
+                '400':
+                    description: "Bad request"
                 '500':
                     description: "Internal server error"
                 '503':
@@ -518,15 +577,33 @@ components:
                 - countryCode
                 - phoneNumber
 
-        registerResponse:
+        userPayload:
             type: object
             properties:
                 name:
                     type: string
+                    minLength: 2
+                    maxLength: 60
                 surname:
                     type: string
+                    minLength: 2
+                    maxLength: 60
                 email:
                     type: string
+                    minLength: 5
+                    maxLength: 200
+                    pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
+                role:
+                    type: string
+                    enum:
+                        - ADMIN
+                        - MODERATOR
+                        - USER
+            required:
+                - name
+                - surname
+                - email
+                - role
 
         loginRequest:
             type: object
@@ -555,10 +632,12 @@ components:
                     type: string
                 email:
                     type: string
-                roles:
-                    type: array
-                    items:
-                        type: string
+                role:
+                    type: string
+                    enum:
+                        - ADMIN
+                        - MODERATOR
+                        - USER
 
         refreshTokenPayload:
             type: object
@@ -831,6 +910,11 @@ components:
                 - residentsNumber
                 - startDate
                 - endDate
+
+        userPayloadList:
+            type: array
+            items:
+                $ref: '#/components/schemas/userPayload'
 
         resortPayloadList:
             type: array

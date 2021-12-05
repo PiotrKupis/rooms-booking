@@ -7,7 +7,7 @@ import com.roomsbooking.dto.AuthenticationResponse;
 import com.roomsbooking.dto.LoginRequest;
 import com.roomsbooking.dto.RefreshTokenPayload;
 import com.roomsbooking.dto.RegisterRequest;
-import com.roomsbooking.dto.RegisterResponse;
+import com.roomsbooking.dto.UserPayload;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class AuthController implements AuthApi {
     private final AuthService authService;
 
     @Override
-    public ResponseEntity<RegisterResponse> register(RegisterRequest registerRequest) {
+    public ResponseEntity<UserPayload> register(RegisterRequest registerRequest) {
         return ResponseEntity.ok(authService.register(registerRequest));
     }
 

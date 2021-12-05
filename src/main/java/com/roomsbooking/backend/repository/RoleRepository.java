@@ -14,8 +14,8 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     /**
      * Method responsible for finding a specific role by its name.
      *
-     * @param roleName name of a specific role
+     * @param name name of a specific role
      * @return optional of type {@link Role}
      */
-    Optional<Role> findByRoleName(String roleName);
+    Optional<Role> findByName(String name);
 }

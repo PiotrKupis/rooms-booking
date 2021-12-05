@@ -29,6 +29,6 @@ public class Role {
 
     @NotBlank
     @Size(max = 100)
-    @Column(name = "role_name", nullable = false, unique = true)
-    private String roleName;
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 }

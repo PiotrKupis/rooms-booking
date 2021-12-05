@@ -10,14 +10,12 @@ import com.roomsbooking.backend.repository.RoleRepository;
 import com.roomsbooking.backend.repository.UserRepository;
 import com.roomsbooking.backend.security.JwtProvider;
 import com.roomsbooking.dto.AuthenticationResponse;
+import com.roomsbooking.dto.AuthenticationResponse.RoleEnum;
 import com.roomsbooking.dto.LoginRequest;
 import com.roomsbooking.dto.RefreshTokenPayload;
 import com.roomsbooking.dto.RegisterRequest;
-import com.roomsbooking.dto.RegisterResponse;
+import com.roomsbooking.dto.UserPayload;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,9 +50,9 @@ public class AuthService {
      * Method responsible for registering a new user.
      *
      * @param registerRequest object of type {@link RegisterRequest}
-     * @return object of type {@link RegisterResponse}
+     * @return object of type {@link UserPayload}
      */
-    public RegisterResponse register(RegisterRequest registerRequest) {
+    public UserPayload register(RegisterRequest registerRequest) {
 
         if (!doPasswordsMatch(registerRequest.getPassword(),
             registerRequest.getRepeatedPassword())) {
@@ -66,14 +64,14 @@ public class AuthService {
                 throw AuthException.emailAlreadyTaken();
             });
 
-        Role defaultRole = roleRepository.findByRoleName("USER")
+        Role defaultRole = roleRepository.findByName("USER")
             .orElseThrow(AuthException::rolesIssue);
         User user = userMapper.toUser(registerRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(defaultRole));
+        user.setRole(defaultRole);
 
         log.info("Registered a new user with email: " + registerRequest.getEmail());
-        return userMapper.toRegisterResponse(userRepository.save(user));
+        return userMapper.toUserPayload(userRepository.save(user));
     }
 
     /**
@@ -93,10 +91,7 @@ public class AuthService {
             RefreshToken refreshToken = refreshTokenService.generateRefreshToken();
             Instant expirationDate = Instant.now()
                 .plusMillis(jwtProvider.getJwtExpirationInMillis());
-            List<String> roles = userRepository.findByEmail(loginRequest.getEmail())
-                .map(user -> user.getRoles().stream()
-                    .map(Role::getRoleName)
-                    .collect(Collectors.toList()))
+            User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(AuthException::badCredentials);
 
             AuthenticationResponse authenticationResponse = new AuthenticationResponse();
@@ -104,7 +99,7 @@ public class AuthService {
             authenticationResponse.setRefreshToken(refreshToken.getToken());
             authenticationResponse.setExpireDate(expirationDate.toString());
             authenticationResponse.setEmail(loginRequest.getEmail());
-            authenticationResponse.setRoles(roles);
+            authenticationResponse.setRole(RoleEnum.valueOf(user.getRole().getName()));
 
             log.info("Logged in user with email: " + loginRequest.getEmail());
             return authenticationResponse;
@@ -149,10 +144,7 @@ public class AuthService {
             "Checking if refresh token " + refreshTokenPayload.getRefreshToken() + " is valid");
         refreshTokenService.validateToken(refreshTokenPayload.getRefreshToken());
 
-        List<String> roles = userRepository.findByEmail(refreshTokenPayload.getEmail())
-            .map(user -> user.getRoles().stream()
-                .map(Role::getRoleName)
-                .collect(Collectors.toList()))
+        User user = userRepository.findByEmail(refreshTokenPayload.getEmail())
             .orElseThrow(() -> UserException.userNotFound(refreshTokenPayload.getEmail()));
         String token = jwtProvider.generateToken(refreshTokenPayload.getEmail());
 
@@ -163,7 +155,7 @@ public class AuthService {
             .plusMillis(jwtProvider.getJwtExpirationInMillis())
             .toString());
         authenticationResponse.setEmail(refreshTokenPayload.getEmail());
-        authenticationResponse.setRoles(roles);
+        authenticationResponse.setRole(RoleEnum.valueOf(user.getRole().getName()));
         log.info("Refreshed token");
         return authenticationResponse;
     }

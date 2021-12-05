@@ -25,6 +25,10 @@
                 <constraints foreignKeyName="fk_user_phone_number" nullable="false"
                     references="phone_number(id)"/>
             </column>
+            <column name="role_id" type="bigint">
+                <constraints foreignKeyName="fk_user_role" nullable="false"
+                    references="role(id)"/>
+            </column>
             <column defaultValue="true" name="is_active" type="boolean">
                 <constraints nullable="false"/>
             </column>

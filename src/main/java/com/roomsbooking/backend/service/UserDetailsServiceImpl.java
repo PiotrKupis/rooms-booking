@@ -4,9 +4,8 @@ import com.roomsbooking.backend.exception.UserException;
 import com.roomsbooking.backend.model.Role;
 import com.roomsbooking.backend.model.User;
 import com.roomsbooking.backend.repository.UserRepository;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,12 +37,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
             user.getEmail(), user.getPassword(), user.getIsActive(), true, true,
-            true, getAuthorities(user.getRoles()));
+            true, getAuthorities(user.getRole()));
     }
 
-    private Collection<GrantedAuthority> getAuthorities(Collection<Role> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
-        return authorities;
+    private Collection<GrantedAuthority> getAuthorities(Role role) {
+        return Collections.singletonList(new SimpleGrantedAuthority(role.getName()));
     }
 }

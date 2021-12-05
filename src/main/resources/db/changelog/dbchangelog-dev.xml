@@ -6,7 +6,6 @@
     <include file="../tables/phoneNumberTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/roleTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/userTable.xml" relativeToChangelogFile="true"/>
-    <include file="../tables/userRoleTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/refreshTokenTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/addressTable.xml" relativeToChangelogFile="true"/>
     <include file="../tables/resortTable.xml" relativeToChangelogFile="true"/>
