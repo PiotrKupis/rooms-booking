@@ -11,6 +11,7 @@ import com.roomsbooking.dto.AddRoomRequest.RoomAmenitiesEnum;
 import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.PhotoPayload;
 import com.roomsbooking.dto.RoomPayload;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -74,8 +75,9 @@ public abstract class RoomMapper {
     @Mapping(target = "photos", expression = "java(toPhotoPayloadList(room.getPhotos()))")
     public abstract DetailedRoomPayload toDetailedRoomPayload(Room room);
 
-    public List<PhotoPayload> toPhotoPayloadList(Set<Photo> photos) {
+    public List<PhotoPayload> toPhotoPayloadList(List<Photo> photos) {
         return photos.stream()
+            .sorted(Comparator.comparing(Photo::getPosition))
             .map(photoMapper::toPhotoPayload)
             .collect(Collectors.toList());
     }

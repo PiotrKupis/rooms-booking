@@ -3,8 +3,10 @@ package com.roomsbooking.backend.model;
 import com.roomsbooking.backend.enums.RoomAmenity;
 import com.roomsbooking.backend.utils.DateUtils;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -88,7 +90,7 @@ public class Room {
     private Integer maxResidentsNumber;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Photo> photos = new HashSet<>();
+    private List<Photo> photos = new ArrayList<>();
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
