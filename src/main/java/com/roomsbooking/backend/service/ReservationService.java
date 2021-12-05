@@ -58,7 +58,7 @@ public class ReservationService {
         String resortName = reservationPayload.getResortName();
         Integer roomNumber = reservationPayload.getRoomNumber();
 
-        Date today = new Date();
+        Date today = DateUtils.dateFormat.parse(DateUtils.dateFormat.format(new Date()));
         Date startDate = DateUtils.dateFormat.parse(reservationPayload.getStartDate());
         Date endDate = DateUtils.dateFormat.parse(reservationPayload.getEndDate());
 
