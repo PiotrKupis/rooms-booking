@@ -74,6 +74,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/auth/logout")
             .hasAnyAuthority("ADMIN", "MODERATOR", "USER")
 
+            .antMatchers("/user", "/user/{email}/{role}")
+            .hasAnyAuthority("ADMIN")
+
             .antMatchers("/resort/{resort-name}")
             .permitAll()
             .antMatchers(HttpMethod.POST, "/resort", "/room")

@@ -1,6 +1,7 @@
 package com.roomsbooking.backend.service;
 
 import com.roomsbooking.backend.exception.AuthException;
+import com.roomsbooking.backend.exception.RoleException;
 import com.roomsbooking.backend.exception.UserException;
 import com.roomsbooking.backend.mapper.UserMapper;
 import com.roomsbooking.backend.model.RefreshToken;
@@ -65,7 +66,7 @@ public class AuthService {
             });
 
         Role defaultRole = roleRepository.findByName("USER")
-            .orElseThrow(AuthException::rolesIssue);
+            .orElseThrow(RoleException::defaultRoleIssue);
         User user = userMapper.toUser(registerRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(defaultRole);

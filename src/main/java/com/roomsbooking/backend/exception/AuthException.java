@@ -24,11 +24,6 @@ public class AuthException extends BaseException {
                 ErrorKey.CONFLICT_EMAIL_ALREADY_TAKEN_ERROR));
     }
 
-    public static AuthException rolesIssue() {
-        return new AuthException(
-            CriticalException.critical("Problem with default user roles"));
-    }
-
     public static AuthException jwtKeystoreError() {
         return new AuthException(
             CriticalException.critical("Problem with jwt keystore",
