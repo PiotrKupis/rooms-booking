@@ -139,7 +139,7 @@ paths:
                     description: "Database connection failed"
 
     /user/{email}/{role}:
-        post:
+        put:
             tags:
                 - "user"
             summary: "Change user role"
@@ -883,11 +883,16 @@ components:
                 endDate:
                     type: string
                     pattern: '^\d{2}-\d{2}-\d{4}$'
+                stripeToken:
+                    type: string
+                    minLength: 3
+                    maxLength: 40
             required:
                 - resortName
                 - roomNumber
                 - startDate
                 - endDate
+                - stripeToken
 
         searchPayload:
             type: object

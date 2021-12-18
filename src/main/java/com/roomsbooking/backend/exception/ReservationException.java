@@ -27,4 +27,9 @@ public class ReservationException extends BaseException {
             OperationException.operationError("Incorrect date range",
                 ErrorKey.OPERATION_INCORRECT_RANGE_ERROR));
     }
+
+    public static ReservationException paymentFailed() {
+        return new ReservationException(
+            OperationException.operationError("Payment failed", ErrorKey.STRIPE_PAYMENT_FAILED));
+    }
 }

@@ -33,6 +33,7 @@
         <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
         <spring.cache.version>2.5.6</spring.cache.version>
         <cloudinary.version>1.26.0</cloudinary.version>
+        <stripe.version>20.90.0</stripe.version>
         <swagger.source.filepath>/src/main/resources/api/api.yml</swagger.source.filepath>
     </properties>
 
@@ -141,6 +142,11 @@
             <groupId>com.cloudinary</groupId>
             <artifactId>cloudinary-http44</artifactId>
             <version>${cloudinary.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>${stripe.version}</version>
         </dependency>
     </dependencies>
 
