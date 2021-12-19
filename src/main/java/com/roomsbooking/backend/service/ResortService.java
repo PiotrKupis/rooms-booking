@@ -3,10 +3,12 @@ package com.roomsbooking.backend.service;
 import com.roomsbooking.backend.exception.ResortException;
 import com.roomsbooking.backend.exception.UserException;
 import com.roomsbooking.backend.mapper.ResortMapper;
+import com.roomsbooking.backend.mapper.RoomMapper;
 import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.User;
 import com.roomsbooking.backend.repository.ResortRepository;
 import com.roomsbooking.backend.repository.UserRepository;
+import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.ResortPayload;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ public class ResortService {
     private final ResortRepository resortRepository;
     private final UserRepository userRepository;
     private final ResortMapper resortMapper;
+    private final RoomMapper roomMapper;
 
     /**
      * Method responsible for creating a new resort.
@@ -84,6 +87,7 @@ public class ResortService {
      * @return object of type {@link Resort}
      */
     public Resort getCurrentUserResort(String resortName) {
+        log.info("Getting resort of the current user by name: " + resortName);
         return authService.getCurrentUser().getResorts().stream()
             .filter(r -> r.getResortName().equals(resortName))
             .findFirst()
@@ -97,6 +101,24 @@ public class ResortService {
      * @return object of type {@link Resort}
      */
     public Resort getResortByName(String resortName) {
+        log.info("Getting resort by name: " + resortName);
+        return getResort(resortName);
+    }
+
+    /**
+     * Method responsible for getting rooms of the specific resort.
+     *
+     * @param resortName name of searched resort
+     * @return list of objects of type {@link DetailedRoomPayload}
+     */
+    public List<DetailedRoomPayload> getResortRooms(String resortName) {
+        log.info("Getting rooms of the specific resort");
+        return getResort(resortName).getRooms().stream()
+            .map(roomMapper::toDetailedRoomPayload)
+            .collect(Collectors.toList());
+    }
+
+    private Resort getResort(String resortName) {
         return resortRepository.findByResortName(resortName)
             .orElseThrow(() -> ResortException.resortNotFound(resortName));
     }

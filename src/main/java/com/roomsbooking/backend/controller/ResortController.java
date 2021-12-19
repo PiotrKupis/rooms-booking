@@ -2,6 +2,7 @@ package com.roomsbooking.backend.controller;
 
 import com.roomsbooking.backend.service.ResortService;
 import com.roomsbooking.controller.ResortApi;
+import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.ResortPayload;
 import io.swagger.annotations.Api;
 import java.util.List;
@@ -29,5 +30,10 @@ public class ResortController implements ResortApi {
     @Override
     public ResponseEntity<ResortPayload> getResortByName(String resortName) {
         return ResponseEntity.ok(resortService.getResortPayloadByName(resortName));
+    }
+
+    @Override
+    public ResponseEntity<List<DetailedRoomPayload>> getResortRooms(String resortName) {
+        return ResponseEntity.ok(resortService.getResortRooms(resortName));
     }
 }
