@@ -1,14 +1,22 @@
 package com.roomsbooking.backend.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.roomsbooking.backend.exception.PhotoException;
 import com.roomsbooking.backend.exception.RoomException;
 import com.roomsbooking.backend.mapper.RoomMapper;
+import com.roomsbooking.backend.model.Photo;
 import com.roomsbooking.backend.model.Resort;
 import com.roomsbooking.backend.model.Room;
 import com.roomsbooking.backend.repository.RoomRepository;
+import com.roomsbooking.backend.utils.DateUtils;
 import com.roomsbooking.backend.utils.PaginationUtils;
 import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.RoomPayload;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -28,6 +36,7 @@ public class RoomService {
     private final ResortService resortService;
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
+    private final Cloudinary cloudinary;
 
     /**
      * Method responsible for saving a new room.
@@ -84,8 +93,7 @@ public class RoomService {
      */
     @Cacheable("room")
     public DetailedRoomPayload getRoom(String resortName, Integer roomNumber) {
-        log.info(
-            "Getting room nr " + roomNumber + " of " + resortName + " resort");
+        log.info("Getting room nr " + roomNumber + " of " + resortName + " resort");
         Room room = getRoomOfResort(resortName, roomNumber);
         return roomMapper.toDetailedRoomPayload(room);
     }
@@ -110,6 +118,44 @@ public class RoomService {
      */
     public Room getCurrentUserRoom(String resortName, Integer roomNumber) {
         return getSpecificRoom(roomNumber, resortService.getCurrentUserResort(resortName));
+    }
+
+    /**
+     * Method responsible for deleting current user's room by its resort and room number.
+     *
+     * @param resortName name of resort connected with the room
+     * @param roomNumber number of the specific room
+     * @return message about successful deleting a room
+     */
+    @CacheEvict(value = "room", allEntries = true)
+    public String deleteRoom(String resortName, Integer roomNumber) {
+        log.info("Deleting room nr " + roomNumber + " of " + resortName + " resort");
+        Room room = getCurrentUserRoom(resortName, roomNumber);
+
+        try {
+            Date today = DateUtils.dateFormat.parse(DateUtils.dateFormat.format(new Date()));
+            room.getReservations().stream()
+                .filter(r -> r.getEndDate().after(today) || r.getEndDate().equals(today))
+                .findFirst()
+                .ifPresent(r -> {
+                    throw RoomException.unrealizedReservations(roomNumber);
+                });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        room.getPhotos().forEach(this::deletePhoto);
+        roomRepository.deleteById(room.getId());
+        return "\"Deleted room\"";
+    }
+
+    private void deletePhoto(Photo photo) {
+        try {
+            log.info("Deleting photo");
+            cloudinary.uploader().destroy(photo.getCloudinaryId(), ObjectUtils.emptyMap());
+        } catch (IOException e) {
+            throw PhotoException.errorOfPhotoProcessing();
+        }
     }
 
     private Room getSpecificRoom(Integer roomNumber, Resort resort) {

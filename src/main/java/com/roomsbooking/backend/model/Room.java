@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -94,6 +95,11 @@ public class Room {
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
+
+    @PreRemove
+    private void removeFromResort() {
+        resort.getRooms().remove(this);
+    }
 
     public boolean isIntervalAvailable(Date startDate, Date endDate) {
         return reservations.stream().noneMatch(reservation ->

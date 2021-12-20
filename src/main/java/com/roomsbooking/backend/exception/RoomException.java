@@ -35,4 +35,11 @@ public class RoomException extends BaseException {
             NotFoundException.notFound("No room meets the requirements",
                 ErrorKey.NOT_FOUND_ROOM_ERROR));
     }
+
+    public static RoomException unrealizedReservations(Integer roomNumber) {
+        return new RoomException(
+            ConflictException.conflict(
+                "Room number " + roomNumber + " has unrealized reservations",
+                ErrorKey.CONFLICT_UNAVAILABLE_TIME_PERIOD_ERROR));
+    }
 }

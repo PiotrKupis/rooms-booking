@@ -32,4 +32,9 @@ public class RoomController implements RoomApi {
     public ResponseEntity<DetailedRoomPayload> getRoom(String resortName, Integer roomNumber) {
         return ResponseEntity.ok(roomService.getRoom(resortName, roomNumber));
     }
+
+    @Override
+    public ResponseEntity<String> deleteRoom(String resortName, Integer roomNumber) {
+        return ResponseEntity.ok(roomService.deleteRoom(resortName, roomNumber));
+    }
 }

@@ -30,6 +30,7 @@ public class ErrorKey {
     public static final String CONFLICT_RESORT_NAME_ALREADY_TAKEN_ERROR = "error.resort.name.already.taken";
     public static final String CONFLICT_UNIQUE_VALUE_ERROR = "error.unique.value";
     public static final String CONFLICT_ROOM_NUMBER_ALREADY_TAKEN_ERROR = "error.room.number.already.taken";
+    public static final String CONFLICT_ROOM_UNREALIZED_RESERVATIONS = "error.room.unrealized.reservations";
     public static final String CONFLICT_UNAVAILABLE_TIME_PERIOD_ERROR = "error.unavailable.time.period";
     public static final String CONFLICT_PHOTO_POSITION_TAKEN_ERROR = "error.photo.position.taken";
 

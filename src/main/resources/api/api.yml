@@ -383,6 +383,40 @@ paths:
                 '503':
                     description: "Database connection failed"
 
+        delete:
+            tags:
+                - "room"
+            summary: "Delete room"
+            description: "Delete room"
+            operationId: "deleteRoom"
+            parameters:
+                -   name: resort-name
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                -   name: room-number
+                    in: path
+                    required: true
+                    schema:
+                        type: integer
+                        minimum: 1
+            responses:
+                '200':
+                    description: 'Operation successful'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '400':
+                    description: "Bad request"
+                '404':
+                    description: "Not found"
+                '500':
+                    description: "Internal server error"
+                '503':
+                    description: "Database connection failed"
+
     /{resort-name}/{room-number}/photo:
         get:
             tags:
