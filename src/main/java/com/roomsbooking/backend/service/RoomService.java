@@ -15,6 +15,7 @@ import com.roomsbooking.dto.AddRoomRequest;
 import com.roomsbooking.dto.DetailedRoomPayload;
 import com.roomsbooking.dto.RoomPayload;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service responsible for managing objects of type {@link Room}.
@@ -121,7 +123,46 @@ public class RoomService {
     }
 
     /**
-     * Method responsible for deleting current user's room by its resort and room number.
+     * Method responsible for updating current user's room.
+     *
+     * @param resortName name of resort connected with the room
+     * @param roomNumber number of the specific room
+     * @return object of type {@link RoomPayload}
+     */
+    @CacheEvict(value = "room", allEntries = true)
+    @Transactional
+    public RoomPayload updateRoom(String resortName, Integer roomNumber,
+        AddRoomRequest addRoomRequest) {
+        log.info("Updating room nr " + roomNumber + " of " + resortName + " resort");
+        if (addRoomRequest.getSingleBedQuantity() + addRoomRequest.getDoubleBedQuantity()
+            + addRoomRequest.getKingSizeBedQuantity() < 1) {
+            throw RoomException.lackOfBeds();
+        }
+
+        Room room = getCurrentUserRoom(resortName, roomNumber);
+        room.getResort().getRooms().stream()
+            .map(Room::getRoomNumber)
+            .filter(number -> !number.equals(room.getRoomNumber()))
+            .filter(number -> number.equals(addRoomRequest.getRoomNumber()))
+            .findFirst()
+            .ifPresent(number -> {
+                throw RoomException.roomNumberAlreadyTaken(number);
+            });
+
+        room.setRoomNumber(addRoomRequest.getRoomNumber());
+        room.setPrice(new BigDecimal(addRoomRequest.getPrice()));
+        room.setPriceCurrency(addRoomRequest.getPriceCurrency());
+        room.setRoomAmenities(roomMapper.toRoomAmenities(addRoomRequest.getRoomAmenities()));
+        room.setSingleBedQuantity(addRoomRequest.getSingleBedQuantity());
+        room.setDoubleBedQuantity(addRoomRequest.getDoubleBedQuantity());
+        room.setKingSizeBedQuantity(addRoomRequest.getKingSizeBedQuantity());
+        room.setMaxResidentsNumber(addRoomRequest.getMaxResidentsNumber());
+
+        return roomMapper.toRoomPayload(room);
+    }
+
+    /**
+     * Method responsible for deleting current user's room.
      *
      * @param resortName name of resort connected with the room
      * @param roomNumber number of the specific room
